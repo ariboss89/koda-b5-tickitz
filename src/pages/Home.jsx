@@ -7,6 +7,9 @@ import Cs1 from "../assets/shield.png";
 import Cs2 from "../assets/check.png";
 import Cs3 from "../assets/bubble.png";
 import Movie1 from "../assets/movie1.png";
+import Movie2 from "../assets/movie2.png";
+import Movie3 from "../assets/movie3.png";
+import Movie4 from "../assets/movie4.png";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Subscribe from "../components/Subscribe";
@@ -298,7 +301,7 @@ function Home() {
                     onPointerEnter={() => setIsShow2(true)}
                     onPointerLeave={() => setIsShow2(false)}
                   >
-                    <img className="" src={Movie1} alt="shield" />
+                    <img className="" src={Movie2} alt="shield" />
                     {isShow2 && (
                       <div
                         className={
@@ -314,11 +317,11 @@ function Home() {
                       </div>
                     )}
                     <p className="font-mulish text-2xl mt-3 font-bold">
-                      Black Widow
+                      The Witches
                     </p>
                     <div className="flex justify-start gap-2.5 pt-3">
                       <p className="bg-smoke text-secondary px-2 text-[16px] rounded-2xl">
-                        Action
+                        Comedy
                       </p>
                       <p className="bg-smoke text-secondary px-2 rounded-2xl">
                         Adventure
@@ -332,7 +335,7 @@ function Home() {
                     onPointerEnter={() => setIsShow3(true)}
                     onPointerLeave={() => setIsShow3(false)}
                   >
-                    <img className="" src={Movie1} alt="shield" />
+                    <img className="" src={Movie3} alt="shield" />
                     {isShow3 && (
                       <div
                         className={
@@ -347,15 +350,13 @@ function Home() {
                         </button>
                       </div>
                     )}
-                    <p className="font-mulish text-2xl mt-3 font-bold">
-                      Black Widow
-                    </p>
+                    <p className="font-mulish text-2xl mt-3 font-bold">Tenet</p>
                     <div className="flex justify-start gap-2.5 pt-3">
                       <p className="bg-smoke text-secondary px-2 text-[16px] rounded-2xl">
                         Action
                       </p>
                       <p className="bg-smoke text-secondary px-2 rounded-2xl">
-                        Adventure
+                        Sci-Fi
                       </p>
                     </div>
                   </div>
@@ -366,7 +367,7 @@ function Home() {
                     onPointerEnter={() => setIsShow4(true)}
                     onPointerLeave={() => setIsShow4(false)}
                   >
-                    <img className="" src={Movie1} alt="shield" />
+                    <img className="" src={Movie4} alt="shield" />
                     {isShow4 && (
                       <div
                         className={
@@ -382,7 +383,7 @@ function Home() {
                       </div>
                     )}
                     <p className="font-mulish text-2xl mt-3 font-bold">
-                      Black Widow
+                      Spiderman
                     </p>
                     <div className="flex justify-start gap-2.5 pt-3">
                       <p className="bg-smoke text-secondary px-2 text-[16px] rounded-2xl">
