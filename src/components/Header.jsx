@@ -49,7 +49,12 @@ function Header() {
             <li>
               <Link
                 to={"/Movies"}
-                className={location.pathname == "/Movies" ? "text-primary" : ""}
+                className={
+                  location.pathname == "/Movies" ||
+                  location.pathname == "/movies"
+                    ? "text-primary"
+                    : ""
+                }
               >
                 Movie
               </Link>
