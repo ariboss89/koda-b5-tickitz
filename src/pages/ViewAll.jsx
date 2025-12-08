@@ -63,6 +63,14 @@ function ViewAll() {
           <section>
             <div className="relative w-screen bg-[url(/src/assets/bg.png)] bg-cover bg-center w-full h-[430px]">
               <div className="absolute inset-0 bg-black/60 "></div>
+              <div className="absolute flex flex-col top-1/3 px-20 w-[60vw]">
+                <p className="text-white font-mulish font-bold text-lg">
+                  LIST MOVIE OF THE WEEK
+                </p>
+                <p className="text-5xl text-white font-mulish font-semibold">
+                  Experience the Magic of Cinema: Book Your Tickets Today
+                </p>
+              </div>
             </div>
           </section>
           <section>
