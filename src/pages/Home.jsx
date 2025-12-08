@@ -205,10 +205,10 @@ function Home() {
                     Guaranteed
                   </p>
                   <p className="text-secondary text-[16px] text-justify">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Ipsam saepe corrupti tempore doloribus, reiciendis, tempora
-                    dolorem, sapiente assumenda consequatur blanditiis
-                    praesentium.
+                    We guaranteed your pleasure if you order your tickets at us
+                    and we also provide you a guarantee if theres a hindrance in
+                    your purchasing and we will give back your payment before
+                    1day
                   </p>
                 </div>
                 <div className="flex flex-col">
@@ -219,10 +219,9 @@ function Home() {
                     Affordable
                   </p>
                   <p className="text-secondary text-[16px] text-justify">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Ipsam saepe corrupti tempore doloribus, reiciendis, tempora
-                    dolorem, sapiente assumenda consequatur blanditiis
-                    praesentium.
+                    We give you our best price if you compare to another
+                    ticketing application, Be Flexible with Dates: Search for
+                    your favorite movies using "Tickitz"
                   </p>
                 </div>
                 <div className="flex flex-col">
@@ -238,10 +237,9 @@ function Home() {
                     24/7 Customer Support
                   </p>
                   <p className="text-secondary text-[16px] text-justify">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Ipsam saepe corrupti tempore doloribus, reiciendis, tempora
-                    dolorem, sapiente assumenda consequatur blanditiis
-                    praesentium.
+                    If you have problem, we ready for you to handle your's
+                    inconvenient, just contact our customer service and we will
+                    give you our best service
                   </p>
                 </div>
               </div>
