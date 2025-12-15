@@ -3,8 +3,8 @@ import React from "react";
 function Footer() {
   return (
     <>
-      <footer className="pt-20">
-        <div className="flex justify-between items-start gap-20 px-20">
+      <footer className="pt-20 flex md:flex md:flex-col">
+        <div className="flex justify-between items-start gap-20 px-20 md:flex-col lg:flex-row">
           <div className="flex flex-col justify-start items-start select-none">
             <svg
               width="184"
