@@ -61,7 +61,7 @@ function ViewAll() {
         <Header />
         <main>
           <section>
-            <div className="relative w-screen bg-[url(/src/assets/bg.png)] bg-cover bg-center w-full h-[430px]">
+            <div className="relative w-screen bg-[url(/src/assets/bg.png)] bg-cover bg-center w-full h-[430px] overflow-y-hidden">
               <div className="absolute inset-0 bg-black/60 "></div>
               <div className="absolute flex flex-col top-1/3 px-20 w-[60vw]">
                 <p className="text-white font-mulish font-bold text-lg">
@@ -133,7 +133,7 @@ function ViewAll() {
                     type="button"
                     name="search"
                     onClick={(e) => {
-                      setFilter(e.target.name);
+                      setFilter(e.target.value);
                       setSearchParam(
                         new URLSearchParams({ [e.target.name]: e.target.value })
                       );

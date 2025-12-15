@@ -16,17 +16,22 @@ import Subscribe from "../components/Subscribe";
 import Movies from "../components/Movies";
 import { format } from "date-fns";
 import { Link } from "react-router";
+import { movieActions } from "../redux/slices/movies.slice";
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "../components/Loader";
 
 function Home() {
-  const [isShow, setIsShow] = useState(false);
-  const [isShow2, setIsShow2] = useState(false);
-  const [isShow3, setIsShow3] = useState(false);
-  const [isShow4, setIsShow4] = useState(false);
-
   const [nextFilm, setNextFilm] = useState(4);
   const [previousFilm, setPreviousFilm] = useState(0);
-  const [movies, setMovies] = useState([]);
-  const [maxMovie, setMaxMovie] = useState(0);
+  const [maxMovie, setMaxMovie] = useState(20);
+
+  const dispatch = useDispatch();
+  const moviesState = useSelector((state) => state.movies);
+
+  useEffect(() => {
+    dispatch(movieActions.getNowPlayingMoviesThunk());
+    dispatch(movieActions.getUpcomingMoviesThunk());
+  }, [nextFilm, previousFilm]);
 
   const genres = [
     {
@@ -107,45 +112,19 @@ function Home() {
     },
   ];
 
-  async function GetFilm(start, end) {
-    try {
-      const url = `${import.meta.env.VITE_MOVIE_UPCOMING}?api_key=${
-        import.meta.env.VITE_MOVIE_KEY
-      }`;
-      const response = await fetch(url);
-      if (!response.ok)
-        throw new Error(`${response.status}:${response.statusText}`);
-
-      const data = await response.json();
-
-      setMaxMovie(data.results.length);
-
-      const newMovies = data.results.slice(start, end).map((item) => {
-        return {
-          item,
-        };
-      });
-      setMovies(newMovies);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    GetFilm(previousFilm, nextFilm);
-  }, [nextFilm, previousFilm]);
-
   function next() {
     if (nextFilm < maxMovie) {
-      setNextFilm(nextFilm + 4);
-      setPreviousFilm(previousFilm + 4);
+      setNextFilm(nextFilm + 1);
+      setPreviousFilm(previousFilm + 1);
+      console.log(previousFilm, nextFilm, "klik next");
     }
   }
 
   function previous() {
     if (previousFilm > 0) {
-      setNextFilm(nextFilm - 4);
-      setPreviousFilm(previousFilm - 4);
+      setNextFilm(nextFilm - 1);
+      setPreviousFilm(previousFilm - 1);
+      console.log(nextFilm, previousFilm, "klik previous");
     }
   }
 
@@ -154,48 +133,57 @@ function Home() {
       <Header />
       <main className="mt-30">
         <section>
-          <div className="flex justify-between mt-10 mb-10 gap-10">
-            <div className="flex justify-center flex-col pl-20 w-3/4 gap-5">
-              <p className="font-mulish text-primary font-bold">
+          <div className="flex flex-col justify-between mt-10 mb-10 gap-10 md:flex md:flex-row md:justify-between md:mt-10 md:mb-10 md:gap-10">
+            <div className="flex flex-col justify-center px-10 w-full gap-5 md:flex md:justify-center md:pl-20 md:w-3/4 md:gap-5">
+              <p className="font-mulish text-center text-primary font-bold text-lg md:text-left">
                 MOVIE TICKET PURCHASES #1 IN INDONESIA
               </p>
-              <p className="font-mulish text-5xl">
+              <p className="font-mulish text-center text-[32px] md:text-5xl md:text-left">
                 Experience the Magic of Cinema: Book Your Tickets Today
               </p>
-              <p className="text-secondary">
+              <p className="text-secondary text-center text-md md:text-left">
                 Sign up and get the ticket with a lot of discount
               </p>
             </div>
 
-            <div className="grid grid-cols-2 grid-rows pr-20 gap-2">
-              <div className="col-start-1 col-end-2 row-start-1 row-end-2 rounded-r-md rounded-l-md h-full">
-                <img src={Hero1} />
+            <div className="grid grid-cols-2 grid-rows px-10 h-min-1/2 gap-2 md:grid md:grid-cols-2 md:grid-rows md:pr-20 md:gap-2">
+              <div
+                className="col-start-1 col-end-2 row-start-1 row-end-2 rounded-r-md rounded-l-md h-full
+              md:h-full
+              "
+              >
+                <img src={Hero1} className="h-full min-w-1/2" />
               </div>
               <div className="col-start-1 col-end-2 row-start-2 row-end-4">
-                <img src={Hero2} />
+                <img src={Hero2} className="h-full min-w-1/2" />
               </div>
               <div className="col-start-2 col-end-3 row-start-1 row-end-3">
-                <img src={Hero3} />
+                <img src={Hero3} className="h-full min-w-1/2" />
               </div>
               <div className="col-start-2 col-end-3 row-start-3 row-end-4">
-                <img src={Hero4} />
+                <img src={Hero4} className="h-full min-w-1/2" />
               </div>
             </div>
           </div>
         </section>
 
         <section>
-          <div className="flex justify-between mt-20 mb-10 gap-20">
-            <div className="flex flex-col px-20">
-              <p className="font-mulish text-lg text-primary font-bold">
+          <div
+            className="flex justify-between mt-20 mb-10 gap-20 
+          md:flex md:flex-row md:justify-between md:mt-20 md:mb-10 md:gap-20"
+          >
+            <div className="flex flex-col px-10 md:px-20">
+              <p
+                className="font-mulish text-center text-primary font-bold
+              md:text-lg md:text-left"
+              >
                 WHY CHOOSE US
               </p>
-              <p className="font-mulish text-[32px]">
-                Unleashing the Ultimate Movie
+              <p className="font-mulish text-[32px] text-center md:text-left">
+                Unleashing the Ultimate Movie Experience
               </p>
-              <p className="m-0 font-mulish text-[32px]">Experience</p>
-              <div className="flex gap-10 mt-5">
-                <div className="flex flex-col">
+              <div className="flex flex-col gap-10 mt-5 md:flex-row">
+                <div className="flex flex-col justify-center items-center mt-5 md:mt-0 md:justify-start md:items-start">
                   <div className="flex justify-center items-center bg-secondary rounded-full h-15 w-15">
                     <img
                       src={Cs1}
@@ -207,27 +195,27 @@ function Home() {
                   <p className="text-lg font-mulish text-gray-900 font-medium mt-5 text-justify">
                     Guaranteed
                   </p>
-                  <p className="text-secondary text-[16px] text-justify">
+                  <p className="text-secondary text-[16px] text-center md:text-justify ">
                     We guaranteed your pleasure if you order your tickets at us
                     and we also provide you a guarantee if theres a hindrance in
                     your purchasing and we will give back your payment before
                     1day
                   </p>
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col justify-center items-center mt-5 md:mt-0 md:justify-start md:items-start">
                   <div className="flex justify-center items-center bg-secondary rounded-full h-15 w-15">
                     <img src={Cs2} alt="check" height={"25vh"} width={"25vw"} />
                   </div>
                   <p className="text-lg font-mulish text-gray-900 font-medium mt-5 text-justify">
                     Affordable
                   </p>
-                  <p className="text-secondary text-[16px] text-justify">
+                  <p className="text-secondary text-[16px] text-center md:text-justify">
                     We give you our best price if you compare to another
                     ticketing application, Be Flexible with Dates: Search for
                     your favorite movies using "Tickitz"
                   </p>
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col justify-center items-center mt-5 md:mt-0 md:justify-start md:items-start">
                   <div className="flex justify-center items-center bg-secondary rounded-full h-15 w-15">
                     <img
                       src={Cs3}
@@ -239,7 +227,7 @@ function Home() {
                   <p className="text-lg font-mulish text-gray-900 font-medium mt-5 text-justify">
                     24/7 Customer Support
                   </p>
-                  <p className="text-secondary text-[16px] text-justify">
+                  <p className="text-secondary text-[16px] text-center md:text-justify">
                     If you have problem, we ready for you to handle your's
                     inconvenient, just contact our customer service and we will
                     give you our best service
@@ -249,152 +237,65 @@ function Home() {
             </div>
           </div>
 
-          <div className="flex justify-between mt-20 mb-10 gap-5">
-            <div className="flex flex-col px-20">
+          <div className="flex flex-col justify-between mt-20 mb-10 gap-5 md:flex-row">
+            <div className="flex flex-col px-10 md:px-20">
               <p className="font-mulish text-lg text-primary font-bold text-center">
                 MOVIES
               </p>
               <p className="font-mulish text-[32px] text-center">
-                Exciting Movie That Should Be
+                Exciting Movie That Should Be Watched Today
               </p>
-              <p className="m-0 font-mulish text-[32px] text-center">
-                Watched Today
-              </p>
-              <div className="flex gap-10 mt-5 min-h-80">
-                <div className="flex flex-col relative">
-                  <div
-                    className={"w-full h-full"}
-                    onPointerEnter={() => setIsShow(true)}
-                    onPointerLeave={() => setIsShow(false)}
-                  >
-                    <img className="" src={Movie1} alt="shield" />
-                    {isShow && (
-                      <div
-                        className={
-                          "absolute flex flex-col gap-2 justify-center items-center top-1/3 right-1/3"
-                        }
-                      >
-                        <button className=" bg-transparent border border-solid text-white border-white p-1 rounded-md w-full">
-                          Details
-                        </button>
-                        <button className=" bg-primary border-2 border-solid border-primary text-white p-1 rounded-md">
-                          Buy Ticket
-                        </button>
-                      </div>
-                    )}
-                    <p className="font-mulish text-2xl mt-3 font-bold">
-                      Black Widow
-                    </p>
-                    <div className="flex justify-start gap-2.5 pt-3">
-                      <p className="bg-smoke text-secondary px-2 text-[16px] rounded-2xl">
-                        Action
-                      </p>
-                      <p className="bg-smoke text-secondary px-2 rounded-2xl">
-                        Adventure
-                      </p>
-                    </div>
+              <div className="flex gap-5 mt-5 overflow-x-scroll [&::-webkit-scrollbar]:hidden snap-x snap-mandatory md:snap-none">
+                {moviesState.fetchStatus.nowPlaying.isLoading == true ? (
+                  <Loader />
+                ) : (
+                  <div className="grid grid-cols-4 mt-5 min-h-[405px] gap-4">
+                    {moviesState.nowPlaying.slice(0, 4).map((movie, idx) => {
+                      return (
+                        <div key={idx} className="w-full relative snap-start">
+                          <div className="relative group">
+                            <img
+                              src={`${import.meta.env.VITE_BACKDROP_PATH}/${
+                                movie.poster_path
+                              }`}
+                              alt={"gambar"}
+                              className="w-full min-h-80 sm:h-96 md:h-100 lg:h-110 rounded-xl object-cover"
+                            />
+                            <div className="absolute inset-0 bg-black/65 bg-opacity-70 rounded-xl flex flex-col justify-center items-center gap-3 sm:gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                              <button className="text-white border-2 border-solid border-white px-12 sm:px-16 md:px-20 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-semibold hover:bg-[#1a45b8] hover:border-[#1a45b8] transition">
+                                Details
+                              </button>
+                              <button className="bg-[#1a45b8] text-white px-10 sm:px-14 md:px-17 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-semibold hover:bg-gray-100 hover:text-black transition">
+                                Buy Ticket
+                              </button>
+                            </div>
+                          </div>
+                          <p className="mt-3 sm:mt-4 md:mt-5 text-lg sm:text-xl md:text-2xl font-semibold line-clamp-2">
+                            {movie.title}
+                          </p>
+                          <p className="font-mulish text-lg font-bold text-primary">
+                            {format(movie.release_date, "MMMM yyyy")}
+                          </p>
+                          <div className="flex flex-wrap gap-1 my-1">
+                            {movie.genre_ids.map((id, idx) => {
+                              const newGenre = genres.find((x) => x.id == id);
+                              if (newGenre.id == id) {
+                                return (
+                                  <p
+                                    key={idx}
+                                    className="bg-smoke text-secondary px-2 text-[16px] rounded-2xl select-none text-justify"
+                                  >
+                                    {newGenre.name}
+                                  </p>
+                                );
+                              }
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-                </div>
-                <div className="flex flex-col relative">
-                  <div
-                    className={"w-full h-full"}
-                    onPointerEnter={() => setIsShow2(true)}
-                    onPointerLeave={() => setIsShow2(false)}
-                  >
-                    <img className="" src={Movie2} alt="shield" />
-                    {isShow2 && (
-                      <div
-                        className={
-                          "absolute flex flex-col gap-2  justify-center items-center top-1/3 right-1/3"
-                        }
-                      >
-                        <button className=" bg-transparent border border-solid text-white border-white p-1 rounded-md w-full">
-                          Details
-                        </button>
-                        <button className=" bg-primary border-2 border-solid border-primary text-white p-1 rounded-md">
-                          Buy Ticket
-                        </button>
-                      </div>
-                    )}
-                    <p className="font-mulish text-2xl mt-3 font-bold">
-                      The Witches
-                    </p>
-                    <div className="flex justify-start gap-2.5 pt-3">
-                      <p className="bg-smoke text-secondary px-2 text-[16px] rounded-2xl">
-                        Comedy
-                      </p>
-                      <p className="bg-smoke text-secondary px-2 rounded-2xl">
-                        Adventure
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-col relative">
-                  <div
-                    className={"w-full h-full"}
-                    onPointerEnter={() => setIsShow3(true)}
-                    onPointerLeave={() => setIsShow3(false)}
-                  >
-                    <img className="" src={Movie3} alt="shield" />
-                    {isShow3 && (
-                      <div
-                        className={
-                          "flex flex-col gap-2 absolute justify-center items-center top-1/3 right-1/3"
-                        }
-                      >
-                        <button className=" bg-transparent border border-solid text-white border-white p-1 rounded-md w-full">
-                          Details
-                        </button>
-                        <button className=" bg-primary border-2 border-solid border-primary text-white p-1 rounded-md">
-                          Buy Ticket
-                        </button>
-                      </div>
-                    )}
-                    <p className="font-mulish text-2xl mt-3 font-bold">Tenet</p>
-                    <div className="flex justify-start gap-2.5 pt-3">
-                      <p className="bg-smoke text-secondary px-2 text-[16px] rounded-2xl">
-                        Action
-                      </p>
-                      <p className="bg-smoke text-secondary px-2 rounded-2xl">
-                        Sci-Fi
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-col relative">
-                  <div
-                    className={"w-full h-full"}
-                    onPointerEnter={() => setIsShow4(true)}
-                    onPointerLeave={() => setIsShow4(false)}
-                  >
-                    <img className="" src={Movie4} alt="shield" />
-                    {isShow4 && (
-                      <div
-                        className={
-                          "flex flex-col gap-2 absolute justify-center items-center top-1/3 right-1/3"
-                        }
-                      >
-                        <button className=" bg-transparent border border-solid text-white border-white p-1 rounded-md w-full">
-                          Details
-                        </button>
-                        <button className=" bg-primary border-2 border-solid border-primary text-white p-1 rounded-md">
-                          Buy Ticket
-                        </button>
-                      </div>
-                    )}
-                    <p className="font-mulish text-2xl mt-3 font-bold">
-                      Spiderman
-                    </p>
-                    <div className="flex justify-start gap-2.5 pt-3">
-                      <p className="bg-smoke text-secondary px-2 text-[16px] rounded-2xl">
-                        Action
-                      </p>
-                      <p className="bg-smoke text-secondary px-2 rounded-2xl">
-                        Adventure
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
@@ -503,45 +404,51 @@ function Home() {
                 </div>
               </div>
             </div>
-
+            {/* {moviesState.fetchStatus.upcoming.isLoading == true ? (
+              <Loader />
+            ) :  */}
+            (
             <div className="grid grid-cols-4 mt-5 min-h-[405px] px-20 gap-4">
-              {movies.map((movie, idx) => {
-                return (
-                  <div key={idx} className={"flex flex-col min-w-[264px]"}>
-                    <div className="min-h-[405px]">
-                      <img
-                        className="h-full rounded-md select-none"
-                        src={`${import.meta.env.VITE_BACKDROP_PATH}/${
-                          movie.item.backdrop_path
-                        }`}
-                        alt="shield"
-                      />
+              {moviesState.upcoming
+                .slice(previousFilm, nextFilm)
+                .map((movie, idx) => {
+                  return (
+                    <div key={idx} className={"flex flex-col min-w-[264px]"}>
+                      <div className="min-h-[405px]">
+                        <img
+                          className="h-full rounded-md select-none"
+                          src={`${import.meta.env.VITE_BACKDROP_PATH}/${
+                            movie.poster_path
+                          }`}
+                          alt="shield"
+                        />
+                      </div>
+                      <p className="font-mulish text-2xl mt-3 font-bold">
+                        {movie.title}
+                      </p>
+                      <p className="font-mulish text-lg font-bold text-primary">
+                        {format(movie.release_date, "MMMM yyyy")}
+                      </p>
+                      <div className="flex flex-wrap gap-1 my-1">
+                        {movie.genre_ids.map((id, idx) => {
+                          const newGenre = genres.find((x) => x.id == id);
+                          if (newGenre.id == id) {
+                            return (
+                              <p
+                                key={idx}
+                                className="bg-smoke text-secondary px-2 text-[16px] rounded-2xl select-none text-justify"
+                              >
+                                {newGenre.name}
+                              </p>
+                            );
+                          }
+                        })}
+                      </div>
                     </div>
-                    <p className="font-mulish text-2xl mt-3 font-bold">
-                      {movie.item.title}
-                    </p>
-                    <p className="font-mulish text-lg font-bold text-primary">
-                      {format(movie.item.release_date, "MMMM yyyy")}
-                    </p>
-                    <div className="flex flex-wrap gap-1 my-1">
-                      {movie.item.genre_ids.map((id, idx) => {
-                        const newGenre = genres.find((x) => x.id == id);
-                        if (newGenre.id == id) {
-                          return (
-                            <p
-                              key={idx}
-                              className="bg-smoke text-secondary px-2 text-[16px] rounded-2xl select-none text-justify"
-                            >
-                              {newGenre.name}
-                            </p>
-                          );
-                        }
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
             </div>
+            )
           </div>
         </section>
 
@@ -549,7 +456,6 @@ function Home() {
           <Subscribe />
         </section>
       </main>
-      <Footer />
     </div>
   );
 }

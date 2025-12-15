@@ -7,11 +7,10 @@ import Footer from "../components/Footer";
 function NotFound() {
   return (
     <div>
-      <Header />
       <div className="flex items-center justify-center">
         <img src={NtFnd} alt="not found" />
+        <button>GO TO HOME</button>
       </div>
-      <Footer />
     </div>
   );
 }

@@ -6,38 +6,66 @@ import google from "../assets/google.png";
 import or from "../assets/or.png";
 import logo from "../assets/logo.png";
 import { useNavigate } from "react-router";
+import useInput from "../hooks/useInput";
+import { useDispatch } from "react-redux";
+import { loginUsers } from "../redux/slices/user.slice";
+import store from "../redux/store";
 
 function Login() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [isError, setIsError] = useState(false);
+  const dispatch = useDispatch();
 
   function visible() {
     setIsError(false);
     setShowPassword(!showPassword);
   }
 
+  const emailInput = useInput("", {
+    required: true,
+    minLength: 8,
+  });
+
+  const passwordInput = useInput("", {
+    required: true,
+    minLength: 8,
+  });
+
   const submitHandler = (event) => {
     event.preventDefault();
 
-    const email = localStorage.getItem("email");
-    const password = localStorage.getItem("password");
+    const newUser = {};
+    Object.assign(newUser, {
+      email: emailInput.value,
+      password: passwordInput.value,
+    });
 
-    if (form.email == email && form.password == password) {
+    if (emailInput != "" && passwordInput != "") {
+      dispatch(loginUsers(newUser));
+      // console.log(test, "datanya");
+
+      // const currentState = store.getState();
+      // console.log(currentState);
+
       navigate(`/`);
     } else {
       setIsError(true);
     }
 
-    setForm({ email: "", password: "" });
+    if (passwordInput == "" && emailInput == "") {
+      navigate("/");
+    }
+
+    emailInput.reset();
+    passwordInput.reset();
   };
 
-  const onChangeHandler = (e) => {
-    setForm((form) => {
-      return { ...form, [e.target.name]: e.target.value };
-    });
-  };
+  // const onChangeHandler = (e) => {
+  //   setForm((form) => {
+  //     return { ...form, [e.target.name]: e.target.value };
+  //   });
+  // };
 
   return (
     <>
@@ -70,8 +98,8 @@ function Login() {
                     id="email"
                     name="email"
                     type="email"
-                    value={form.email}
-                    onChange={onChangeHandler}
+                    value={emailInput.value}
+                    onChange={emailInput.onChange}
                     className="h-15 w-full border border-[#DEDEDE] rounded-xs pl-5 outline-none"
                     placeholder="Enter your email"
                   />
@@ -82,7 +110,8 @@ function Login() {
                     id="password"
                     name="password"
                     type={showPassword ? "text" : "password"}
-                    onChange={onChangeHandler}
+                    value={passwordInput.value}
+                    onChange={passwordInput.onChange}
                     className="h-15 w-full rounded-xs pl-5 outline-none"
                     placeholder="Enter your password"
                   />
