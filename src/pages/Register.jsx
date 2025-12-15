@@ -46,7 +46,7 @@ function Register() {
         isLogin: false,
       });
       dispatch(addUsers(newUser));
-      navigate(`auth/login`);
+      //navigate(`auth/login`);
     } else {
       setIsChecked(false);
     }

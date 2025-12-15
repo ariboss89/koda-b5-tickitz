@@ -1,5 +1,6 @@
 import React from "react";
 import Movie1 from "../assets/movie1.png";
+import { useNavigate } from "react-router";
 
 function Movies({ movies }) {
   // const [isShow, setIsShow] = useState(false);
@@ -86,6 +87,12 @@ function Movies({ movies }) {
     },
   ];
 
+  const navigate = useNavigate();
+
+  const handleMovieClick = (movieId) => {
+    navigate(`${movieId}`);
+  };
+
   return (
     <>
       {movies.map((movie, idx) => {
@@ -93,6 +100,10 @@ function Movies({ movies }) {
           <div
             key={idx}
             className={"flex flex-col w-full"}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleMovieClick(movie.item.id);
+            }}
             // onPointerEnter={() => setIsShow(true)}
             // onPointerLeave={() => setIsShow(false)}
           >

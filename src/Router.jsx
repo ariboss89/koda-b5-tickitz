@@ -12,17 +12,15 @@ import DetailMovie from "./pages/DetailMovie";
 import BuyTicket from "./pages/BuyTicket";
 import PaymentInfo from "./pages/PaymentInfo";
 import TicketResult from "./pages/TicketResult";
-import TestingFetch from "./pages/TestingFetch";
 
 function Router() {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
-        {/* <Route path="/" element={<TestingFetch />}> */}
         <Route index element={<Home />} />
         <Route path="movies">
           <Route index element={<ViewAll />} />
-          <Route path=":id/:slug" element={<DetailMovie />} />
+          <Route path=":id/" element={<DetailMovie />} />
           <Route path="buyticket/:id/:slug" element={<BuyTicket />} />
           <Route path="payment/:id/:slug" element={<PaymentInfo />} />
           <Route path="ticketresult/:id/:slug" element={<TicketResult />} />
@@ -30,7 +28,7 @@ function Router() {
       </Route>
 
       <Route path="auth" element={<AuthLayout />}>
-        <Route index path="login" element={<Login />} />
+        <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
       </Route>
       <Route path="*" element={<NotFound />} />

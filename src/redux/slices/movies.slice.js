@@ -11,6 +11,7 @@ const getNowPlayingMoviesThunk = createAsyncThunk(
       }`;
       //const data = await getMoviesNowPlayingData(url);
       const data = await fetchUrl(url);
+      console.log(data, "hehehajakkaala");
       return data;
     } catch (error) {
       return rejectWithValue(error);
@@ -29,7 +30,38 @@ const getUpcomingMoviesThunk = createAsyncThunk(
       console.log(data);
       return data;
     } catch (error) {
-      console.log(error);
+      rejectWithValue(error);
+    }
+  }
+);
+
+const getDetailMoviesThunk = createAsyncThunk(
+  "movies/getDetailMovies",
+  async (id, { rejectWithValue }) => {
+    try {
+      const url = `${import.meta.env.VITE_MOVIE_DETAIL}${id}?api_key=${
+        import.meta.env.VITE_MOVIE_KEY
+      }`;
+      const data = await fetchUrl(url);
+      console.log(data, "aomm");
+      return data;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
+const getGenreMoviesThunk = createAsyncThunk(
+  "movies/getGenre",
+  async (id, { rejectWithValue }) => {
+    try {
+      const url = `${import.meta.env.VITE_MOVIE_GENRE}?api_key=${
+        import.meta.env.VITE_MOVIE_KEY
+      }`;
+      const data = await fetchUrl(url);
+      console.log(data, "heheh");
+      return data;
+    } catch (error) {
       rejectWithValue(error);
     }
   }
@@ -38,6 +70,8 @@ const getUpcomingMoviesThunk = createAsyncThunk(
 const initialState = {
   nowPlaying: [],
   upcoming: [],
+  detail: [],
+  genre: [],
   fetchStatus: {
     nowPlaying: {
       isLoading: false,
@@ -49,10 +83,22 @@ const initialState = {
       isSuccess: false,
       isFailed: false,
     },
+    detail: {
+      isLoading: false,
+      isSuccess: false,
+      isFailed: false,
+    },
+    genre: {
+      isLoading: false,
+      isSuccess: false,
+      isFailed: false,
+    },
   },
   errors: {
     nowPlaying: null,
     upcoming: null,
+    detail: null,
+    genre: null,
   },
 };
 
@@ -95,6 +141,40 @@ const moviesSlice = createSlice({
           prevState.fetchStatus.upcoming.isSuccess = true;
           prevState.errors.upcoming = payload;
         },
+      })
+      .addAsyncThunk(getDetailMoviesThunk, {
+        pending: (prevState) => {
+          prevState.fetchStatus.detail.isLoading = true;
+          prevState.fetchStatus.detail.isSuccess = false;
+          prevState.fetchStatus.detail.isFailed = false;
+        },
+        fulfilled: (prevState, { payload }) => {
+          prevState.fetchStatus.detail.isLoading = false;
+          prevState.fetchStatus.detail.isSuccess = true;
+          prevState.detail = payload;
+        },
+        rejected: (prevState, { payload }) => {
+          prevState.fetchStatus.detail.isLoading = false;
+          prevState.fetchStatus.detail.isSuccess = true;
+          prevState.errors.detail = payload;
+        },
+      })
+      .addAsyncThunk(getGenreMoviesThunk, {
+        pending: (prevState) => {
+          prevState.fetchStatus.genre.isLoading = true;
+          prevState.fetchStatus.genre.isSuccess = false;
+          prevState.fetchStatus.genre.isFailed = false;
+        },
+        fulfilled: (prevState, { payload }) => {
+          prevState.fetchStatus.genre.isLoading = false;
+          prevState.fetchStatus.genre.isSuccess = true;
+          prevState.genre = payload;
+        },
+        rejected: (prevState, { payload }) => {
+          prevState.fetchStatus.genre.isLoading = false;
+          prevState.fetchStatus.genre.isSuccess = true;
+          prevState.errors.genre = payload;
+        },
       });
     // .addCase(getNowPlayingMoviesThunk.pending, () => {})
     // .addCase(getNowPlayingMoviesThunk.fulfilled, () => {})
@@ -106,5 +186,7 @@ export const movieActions = {
   actions: moviesSlice.actions,
   getNowPlayingMoviesThunk,
   getUpcomingMoviesThunk,
+  getDetailMoviesThunk,
+  getGenreMoviesThunk,
 };
 export default moviesSlice.reducer;

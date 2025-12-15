@@ -31,6 +31,7 @@ function Home() {
   useEffect(() => {
     dispatch(movieActions.getNowPlayingMoviesThunk());
     dispatch(movieActions.getUpcomingMoviesThunk());
+    dispatch(movieActions.getGenreMoviesThunk());
   }, [nextFilm, previousFilm]);
 
   const genres = [
@@ -112,6 +113,10 @@ function Home() {
     },
   ];
 
+  const genreAll = movieActions.genre;
+
+  console.log(genreAll, "all genre");
+
   function next() {
     if (nextFilm < maxMovie) {
       setNextFilm(nextFilm + 1);
@@ -127,6 +132,10 @@ function Home() {
       console.log(nextFilm, previousFilm, "klik previous");
     }
   }
+
+  // function onClickDetail(id) {
+  //   navigate(`/movies/${id}`);
+  // }
 
   return (
     <div>
@@ -278,6 +287,9 @@ function Home() {
                           </p>
                           <div className="flex flex-wrap gap-1 my-1">
                             {movie.genre_ids.map((id, idx) => {
+                              const genres2 = moviesState.genre;
+                              console.log(genres2, "");
+
                               const newGenre = genres.find((x) => x.id == id);
                               if (newGenre.id == id) {
                                 return (

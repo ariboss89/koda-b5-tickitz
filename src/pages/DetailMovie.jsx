@@ -1,32 +1,148 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Movie1 from "../assets/movie1.png";
+import { useParams } from "react-router";
+import { useSelector, useDispatch } from "react-redux";
+import { movieActions } from "../redux/slices/movies.slice";
 
 function DetailMovie() {
+  const { id } = useParams();
+  const moviesState = useSelector((state) => state.movies);
+
+  // const genres = [
+  //   {
+  //     id: 28,
+  //     name: "Action",
+  //   },
+  //   {
+  //     id: 12,
+  //     name: "Abenteuer",
+  //   },
+  //   {
+  //     id: 16,
+  //     name: "Animation",
+  //   },
+  //   {
+  //     id: 35,
+  //     name: "Komödie",
+  //   },
+  //   {
+  //     id: 80,
+  //     name: "Krimi",
+  //   },
+  //   {
+  //     id: 99,
+  //     name: "Dokumentarfilm",
+  //   },
+  //   {
+  //     id: 18,
+  //     name: "Drama",
+  //   },
+  //   {
+  //     id: 10751,
+  //     name: "Familie",
+  //   },
+  //   {
+  //     id: 14,
+  //     name: "Fantasy",
+  //   },
+  //   {
+  //     id: 36,
+  //     name: "Historie",
+  //   },
+  //   {
+  //     id: 27,
+  //     name: "Horror",
+  //   },
+  //   {
+  //     id: 10402,
+  //     name: "Musik",
+  //   },
+  //   {
+  //     id: 9648,
+  //     name: "Mystery",
+  //   },
+  //   {
+  //     id: 10749,
+  //     name: "Liebesfilm",
+  //   },
+  //   {
+  //     id: 878,
+  //     name: "Science Fiction",
+  //   },
+  //   {
+  //     id: 10770,
+  //     name: "TV-Film",
+  //   },
+  //   {
+  //     id: 53,
+  //     name: "Thriller",
+  //   },
+  //   {
+  //     id: 10752,
+  //     name: "Kriegsfilm",
+  //   },
+  //   {
+  //     id: 37,
+  //     name: "Western",
+  //   },
+  // ];
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(movieActions.getDetailMoviesThunk(id));
+  }, [id]);
+
   return (
     <div>
       <main>
         <section>
-          <div className="relative w-screen bg-[url(/src/assets/bg.png)] bg-cover bg-center w-full h-[430px] overflow-y-hidden">
+          {/* <div className="relative w-screen bg-[url(/src/assets/bg.png)] bg-cover bg-center w-full h-[430px] overflow-y-hidden">
             <div className="absolute inset-0 bg-black/60 -bottom-10 "></div>
+          </div> */}
+          <div className="relative flex items-center justify-center mt-20 w-full">
+            <img
+              src={`${import.meta.env.VITE_BACKDROP_PATH}/${
+                moviesState.detail.backdrop_path
+              }`}
+            />
           </div>
-        </section>
-        <section className="">
           {/* <div className="flex justify-between bg-gray-300 px-25 top-1/3 md:absolute md:-margin-top:1/4 md:top-1/4 md:w-1/4 lg:top-1/2 lg:w-1/3"> */}
           <div className="flex justify-between bg-white px-25">
             <div className="w-1/4 h-1/4">
-              <img src={Movie1} />
+              <img
+                src={`${import.meta.env.VITE_BACKDROP_PATH}/${
+                  moviesState.detail.poster_path
+                }`}
+              />
+            </div>
+            <div className="flex flex-wrap gap-1 my-1">
+              {/* {moviesState.detail.genres.map((id, idx) => {
+                const newGenre = genres.find((x) => x.id == id);
+                if (newGenre.id == id) {
+                  return (
+                    <p
+                      key={idx}
+                      className="bg-smoke text-secondary px-2 text-[16px] rounded-2xl select-none"
+                    >
+                      {newGenre.name}
+                    </p>
+                  );
+                }
+              })} */}
             </div>
           </div>
           <div className="flex flex-col">
             <div className="flex flex-col items-end justify-end">
-              <p className="font-mulish text-[16px]">Spider-Man: Homecoming</p>
+              <p className="font-mulish text-[16px]">
+                {moviesState.detail.title}
+              </p>
               <p>Genre</p>
               <div className="flex justify-between items-center">
                 <div className="flex flex-col">
                   <p>Release date </p>
-                  <p>June 28, 2017 </p>
+                  <p>{moviesState.detail.release_date} </p>
                   <p>Duration </p>
                   <p>2 hours 13 minutes</p>
                 </div>
@@ -41,15 +157,7 @@ function DetailMovie() {
           </div>
           <div className="flex flex-col justify-start items-start px-20">
             <p>Synopsis</p>
-            <p>
-              Thrilled by his experience with the Avengers, Peter returns home,
-              where he lives with his Aunt May, under the watchful eye of his
-              new mentor Tony Stark, Peter tries to fall back into his normal
-              daily routine - distracted by thoughts of proving himself to be
-              more than just your friendly neighborhood Spider-Man - but when
-              the Vulture emerges as a new villain, everything that Peter holds
-              most important will be threatened.{" "}
-            </p>
+            <p>{moviesState.detail.overview}</p>
           </div>
         </section>
         <section className="px-20">
