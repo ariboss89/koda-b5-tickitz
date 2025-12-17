@@ -101,24 +101,30 @@ function DetailMovie() {
           {/* <div className="relative w-screen bg-[url(/src/assets/bg.png)] bg-cover bg-center w-full h-[430px] overflow-y-hidden">
             <div className="absolute inset-0 bg-black/60 -bottom-10 "></div>
           </div> */}
-          <div className="relative flex items-center justify-center mt-20 w-full">
+          <div className="inset-0 z-0 mt-20 w-full overflow-y-hidden bg-cover before:absolute">
             <img
               src={`${import.meta.env.VITE_BACKDROP_PATH}/${
                 moviesState.detail.backdrop_path
               }`}
+              className="h-200 w-full object-cover"
             />
           </div>
           {/* <div className="flex justify-between bg-gray-300 px-25 top-1/3 md:absolute md:-margin-top:1/4 md:top-1/4 md:w-1/4 lg:top-1/2 lg:w-1/3"> */}
-          <div className="flex justify-between bg-white px-25">
-            <div className="w-1/4 h-1/4">
+          <div className="z-10 -mt-50 mb-10 flex h-3/4 flex-col items-end justify-between gap-5 bg-white px-20 md:flex-row">
+            <div className="md:h-1/4 md:w-1/4">
               <img
                 src={`${import.meta.env.VITE_BACKDROP_PATH}/${
                   moviesState.detail.poster_path
                 }`}
               />
             </div>
-            <div className="flex flex-wrap gap-1 my-1">
-              {/* {moviesState.detail.genres.map((id, idx) => {
+            <div className="z-10 my-1 flex w-full flex-wrap gap-1 md:w-3/4">
+              <div className="flex flex-col items-start justify-center">
+                <p className="font-mulish text-[32px] font-bold">
+                  {moviesState.detail.title}
+                </p>
+                <p>Genre</p>
+                {/* {moviesState.detail.genres.map((id, idx) => {
                 const newGenre = genres.find((x) => x.id == id);
                 if (newGenre.id == id) {
                   return (
@@ -131,43 +137,39 @@ function DetailMovie() {
                   );
                 }
               })} */}
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <div className="flex flex-col items-end justify-end">
-              <p className="font-mulish text-[16px]">
-                {moviesState.detail.title}
-              </p>
-              <p>Genre</p>
-              <div className="flex justify-between items-center">
-                <div className="flex flex-col">
-                  <p>Release date </p>
-                  <p>{moviesState.detail.release_date} </p>
-                  <p>Duration </p>
-                  <p>2 hours 13 minutes</p>
-                </div>
-                <div className="flex flex-col">
-                  <p>Directed by </p>
-                  <p>Jon Watts </p>
-                  <p>Casts </p>
-                  <p>Tom Holland, Michael Keaton, Robert Downey Jr</p>
+
+                <div className="flex flex-col items-start justify-between md:flex-row md:items-center">
+                  <div className="lex flex-col">
+                    <p>Release date </p>
+                    <p>{moviesState.detail.release_date} </p>
+                    <p>Duration </p>
+                    <p>2 hours 13 minutes</p>
+                  </div>
+                  <div className="flex flex-col">
+                    <p>Directed by </p>
+                    <p>Jon Watts </p>
+                    <p>Casts </p>
+                    <p>Tom Holland, Michael Keaton, Robert Downey Jr</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="flex flex-col justify-start items-start px-20">
-            <p>Synopsis</p>
-            <p>{moviesState.detail.overview}</p>
+        </section>
+        <section>
+          <div className="flex flex-col items-start justify-start px-20">
+            <p className="font-mulish mb-5 text-[20px] font-medium">Synopsis</p>
+            <p className="text-justify">{moviesState.detail.overview}</p>
           </div>
         </section>
         <section className="px-20">
           <div className="mt-10 mb-5">
             <p>Book Tickets</p>
           </div>
-          <div className="flex justify-between items-center">
-            <div className="flex flex-col ">
-              <p className="font-mulish text-[16px] mb-2">Choose Date</p>
-              <div className="flex justify-between items-center border border-white p-2 rounded-sm bg-[#EFF0F6]">
+          <div className="flex flex-col items-center justify-between md:flex-row">
+            <div className="flex flex-col">
+              <p className="font-mulish mb-2 text-[16px]">Choose Date</p>
+              <div className="flex items-center justify-between rounded-sm border border-white bg-[#EFF0F6] p-2">
                 <svg
                   width="18"
                   height="18"
@@ -206,7 +208,7 @@ function DetailMovie() {
                 </svg>
 
                 <input
-                  className="outline-none pl-5 placeholder:text-black placeholder:font-mulish placeholder:text-[16px]"
+                  className="placeholder:font-mulish pl-5 outline-none placeholder:text-[16px] placeholder:text-black"
                   disabled
                   placeholder="21/07/20"
                 />
@@ -228,9 +230,9 @@ function DetailMovie() {
                 </svg>
               </div>
             </div>
-            <div className="flex flex-col ">
-              <p className="font-mulish text-[16px] mb-2">Choose Time</p>
-              <div className="flex justify-between items-center border border-white p-2 rounded-sm bg-[#EFF0F6]">
+            <div className="flex flex-col">
+              <p className="font-mulish mb-2 text-[16px]">Choose Time</p>
+              <div className="flex items-center justify-between rounded-sm border border-white bg-[#EFF0F6] p-2">
                 <svg
                   width="18"
                   height="18"
@@ -248,7 +250,7 @@ function DetailMovie() {
                 </svg>
 
                 <input
-                  className="outline-none pl-5 placeholder:text-black placeholder:font-mulish placeholder:text-[16px]"
+                  className="placeholder:font-mulish pl-5 outline-none placeholder:text-[16px] placeholder:text-black"
                   disabled
                   placeholder="08:30 AM"
                 />
@@ -270,9 +272,9 @@ function DetailMovie() {
                 </svg>
               </div>
             </div>
-            <div className="flex flex-col ">
-              <p className="font-mulish text-[16px] mb-2">Choose Location</p>
-              <div className="flex justify-between items-center border border-white p-2 rounded-sm bg-[#EFF0F6]">
+            <div className="flex flex-col">
+              <p className="font-mulish mb-2 text-[16px]">Choose Location</p>
+              <div className="flex items-center justify-between rounded-sm border border-white bg-[#EFF0F6] p-2">
                 <svg
                   width="18"
                   height="18"
@@ -294,7 +296,7 @@ function DetailMovie() {
                 </svg>
 
                 <input
-                  className="outline-none pl-5 placeholder:text-black placeholder:font-mulish placeholder:text-[16px]"
+                  className="placeholder:font-mulish pl-5 outline-none placeholder:text-[16px] placeholder:text-black"
                   disabled
                   placeholder="Purwokerto"
                 />
@@ -316,11 +318,11 @@ function DetailMovie() {
                 </svg>
               </div>
             </div>
-            <div className="flex flex-col ">
-              <p className="font-mulish text-[16px] mb-2 text-white">
+            <div className="flex flex-col">
+              <p className="font-mulish mb-2 text-[16px] text-white">
                 Choose Location
               </p>
-              <div className="font-mulish flex justify-center items-center border border-white p-2 rounded-sm  bg-primary text-white text-sm">
+              <div className="font-mulish bg-primary flex items-center justify-center rounded-sm border border-white p-2 text-sm text-white">
                 {/* <input
                   className="outline-none pl-5 placeholder:text-white placeholder:font-mulish placeholder:text-[16px] text-center"
                   disabled
@@ -332,12 +334,12 @@ function DetailMovie() {
           </div>
 
           <div className="flex flex-col">
-            <p className="font-mulish text-[20px] mb-5 mt-5">
+            <p className="font-mulish mt-5 mb-5 text-[20px]">
               Choose Cinema{" "}
-              <span className="ml-20 text-lg text-secondary">39 Results</span>
+              <span className="text-secondary ml-20 text-lg">39 Results</span>
             </p>
-            <div className="flex justify-between items-center">
-              <div className="border min-h-30 flex flex-col items-center justify-center rounded-sm border-[#DEDEDE] p-2">
+            <div className="flex flex-col items-center justify-between md:w-full md:flex-row">
+              <div className="flex min-h-30 flex-col items-center justify-center rounded-sm border border-[#DEDEDE] p-2">
                 <svg
                   width="204"
                   height="83"
@@ -363,7 +365,7 @@ function DetailMovie() {
                   </defs>
                 </svg>
               </div>
-              <div className="border min-h-30 flex flex-col items-center justify-center bg-blue-700 p-2 rounded-sm border-[#DEDEDE]">
+              <div className="flex min-h-30 flex-col items-center justify-center rounded-sm border border-[#DEDEDE] bg-blue-700 p-2">
                 <svg
                   width="202"
                   height="43"
@@ -377,7 +379,7 @@ function DetailMovie() {
                   />
                 </svg>
               </div>
-              <div className="border min-h-30 flex flex-col items-center justify-center rounded-sm border-[#DEDEDE] p-2">
+              <div className="flex min-h-30 flex-col items-center justify-center rounded-sm border border-[#DEDEDE] p-2">
                 <svg
                   width="226"
                   height="30"
@@ -391,7 +393,7 @@ function DetailMovie() {
                   />
                 </svg>
               </div>
-              <div className="border min-h-30 flex flex-col items-center justify-center rounded-sm border-[#DEDEDE] p-2">
+              <div className="flex min-h-30 flex-col items-center justify-center rounded-sm border border-[#DEDEDE] p-2">
                 <svg
                   width="204"
                   height="83"
@@ -419,19 +421,27 @@ function DetailMovie() {
               </div>
             </div>
 
-            <div className="flex justify-center items-center gap-2 mt-10">
-              <div className="border py-1 px-3 bg-blue-600 border-[#DEDEDE] text-[#DEDEDE] rounded-sm">
+            <div className="mt-10 flex items-center justify-center gap-2">
+              <div className="rounded-sm border border-[#DEDEDE] bg-blue-600 px-3 py-1 text-[#DEDEDE]">
                 1
               </div>
-              <div className="border py-1 px-3 border-[#DEDEDE] rounded-sm">
+              <div className="rounded-sm border border-[#DEDEDE] px-3 py-1">
                 2
               </div>
-              <div className="border py-1 px-3 border-[#DEDEDE] rounded-sm">
+              <div className="rounded-sm border border-[#DEDEDE] px-3 py-1">
                 3
               </div>
-              <div className="border py-1 px-3 border-[#DEDEDE] rounded-sm">
+              <div className="rounded-sm border border-[#DEDEDE] px-3 py-1">
                 4
               </div>
+            </div>
+
+            <div className="mt-10 flex items-center justify-center">
+              <input
+                className="bg-primary font-mulish w-full rounded-sm p-5 text-sm text-white md:w-1/5"
+                type="button"
+                value="Book Now"
+              />
             </div>
           </div>
         </section>

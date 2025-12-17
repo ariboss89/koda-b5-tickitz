@@ -46,7 +46,7 @@ function Register() {
         isLogin: false,
       });
       dispatch(addUsers(newUser));
-      //navigate(`auth/login`);
+      navigate(`/auth/login`);
     } else {
       setIsChecked(false);
     }
@@ -60,10 +60,10 @@ function Register() {
 
   return (
     <>
-      <main className="bg-[url(../src/assets/bg.png)] bg-cover bg-center">
-        <section>
-          <div className="flex flex-col justify-center items-center rounded-sm">
-            <div className="flex justify-center align-center text-center mt-10">
+      <main className="relative z-0 min-h-fit bg-[url(../src/assets/bg.png)] bg-cover bg-center before:absolute before:inset-0 before:-z-1 before:bg-black/30">
+        <section className="z-20">
+          <div className="flex flex-col items-center justify-center rounded-sm">
+            <div className="align-center mt-10 flex justify-center text-center">
               <img src={logo} width="50%" height="50%" />
             </div>
 
@@ -71,37 +71,37 @@ function Register() {
               <form
                 noValidate
                 onSubmit={submitHandler}
-                className="flex flex-col mt-10 bg-[#ffffff] p-10 rounded-sm mb-20 "
+                className="mt-10 mb-20 flex flex-col rounded-sm bg-[#ffffff] p-10"
               >
-                <div className="flex justify-between align-center mb-10">
-                  <div className="flex flex-col justify-center items-center text-center w-32 h-15 bg-[#1D4ED8] rounded-full text-white">
+                <div className="align-center mb-10 flex justify-between">
+                  <div className="flex h-15 w-32 flex-col items-center justify-center rounded-full bg-[#1D4ED8] text-center text-white">
                     1
                   </div>
                   <input
-                    className="border-b-2 border-dashed w-1/2 outline-0 border-[#DEDEDE]"
+                    className="w-1/2 border-b-2 border-dashed border-[#DEDEDE] outline-0"
                     disabled
                   />
-                  <div className="flex flex-col justify-center items-center text-center w-32 h-15 bg-secondary rounded-full text-white">
+                  <div className="bg-secondary flex h-15 w-32 flex-col items-center justify-center rounded-full text-center text-white">
                     2
                   </div>
                   <input
-                    className="border-b-2 border-dashed w-1/2 outline-0 border-[#DEDEDE]"
+                    className="w-1/2 border-b-2 border-dashed border-[#DEDEDE] outline-0"
                     disabled
                   />
-                  <div className="flex flex-col justify-center items-center text-center w-32 h-15 bg-secondary rounded-full text-white">
+                  <div className="bg-secondary flex h-15 w-32 flex-col items-center justify-center rounded-full text-center text-white">
                     3
                   </div>
                 </div>
 
                 <label className="text-left">Email</label>
-                <div className="mt-5 w-full mb-2">
+                <div className="mt-5 mb-2 w-full">
                   <input
                     id="email"
                     name="email"
                     type="email"
                     value={emailInput.value}
                     onChange={emailInput.onChange}
-                    className="h-15 w-full border border-[#DEDEDE] rounded-xs pl-5 outline-none"
+                    className="h-15 w-full rounded-xs border border-[#DEDEDE] pl-5 outline-none"
                     placeholder="Enter your email"
                   />
                   {emailInput.isValid ? (
@@ -109,28 +109,28 @@ function Register() {
                       <span className="min-h-5 text-white">ok</span>
                     </>
                   ) : (
-                    <span className="text-[12px] text-red-500 font-bold min-h-5">
+                    <span className="min-h-5 text-[12px] font-bold text-red-500">
                       {emailInput.error}
                     </span>
                   )}
                 </div>
                 <label className="text-left">Password</label>
-                <div className="mt-2 w-full  flex justify-between items-center pr-2 border border-[#DEDEDE] ">
+                <div className="mt-2 flex w-full items-center justify-between border border-[#DEDEDE] pr-2">
                   <input
                     id="password"
                     name="password"
                     type={showPassword ? "text" : "password"}
                     onChange={passwordInput.onChange}
-                    className="h-15 w-full rounded-xs pl-5 outline-none mb-2"
+                    className="mb-2 h-15 w-full rounded-xs pl-5 outline-none"
                     placeholder="Enter your password"
                     value={passwordInput.value}
                   />
 
                   <button onClick={visible}>
                     {showPassword == true ? (
-                      <img className="w-8 h-8" src={eyeSlash} />
+                      <img className="h-8 w-8" src={eyeSlash} />
                     ) : (
-                      <img className="w-8 h-8" src={eye} />
+                      <img className="h-8 w-8" src={eye} />
                     )}
                   </button>
                 </div>
@@ -139,7 +139,7 @@ function Register() {
                     <span className="min-h-10 text-white">ok</span>
                   </>
                 ) : (
-                  <span className=" text-[12px] text-red-500 font-bold min-h-10">
+                  <span className="min-h-10 text-[12px] font-bold text-red-500">
                     {passwordInput.error}
                   </span>
                 )}
@@ -157,26 +157,26 @@ function Register() {
                   </label>
                 </div>
                 {isChecked == true ? (
-                  <span className="text-[12px] font-bold text-justify min-h-10 text-white">
+                  <span className="min-h-10 text-justify text-[12px] font-bold text-white">
                     ok
                   </span>
                 ) : (
-                  <span className="text-[12px] text-red-600 font-bold text-left min-h-10">
+                  <span className="min-h-10 text-left text-[12px] font-bold text-red-600">
                     PLEASE CHECKED THE TERMS AND CONDITION
                   </span>
                 )}
 
                 <input
                   type="submit"
-                  className="text-white w-full rounded-xs bg-[#1D4ED8] mb-5 p-5"
+                  className="mb-5 w-full rounded-xs bg-[#1D4ED8] p-5 text-white"
                   value="Join For Free Now"
                 />
 
-                <div className="flex flex-row justify-center align-center items-center">
+                <div className="align-center flex flex-row items-center justify-center">
                   <p className="text-center">
                     Already have an account ?
                     <Link
-                      to={"auth/login"}
+                      to={"/auth/login"}
                       viewTransition
                       className={"text-primary"}
                     >
@@ -185,17 +185,17 @@ function Register() {
                   </p>
                 </div>
 
-                <div className="flex flex-row align-center items-center mt-5 mb-5">
+                <div className="align-center mt-5 mb-5 flex flex-row items-center">
                   <img src={or} />
                 </div>
 
-                <div className="flex justify-center align-center items-center gap-10">
-                  <div className="flex p-2 items-center justify-center bg-[#ffffff] shadow-sm w-1/2">
+                <div className="align-center flex items-center justify-center gap-10">
+                  <div className="flex w-1/2 items-center justify-center bg-[#ffffff] p-2 shadow-sm">
                     <img src={google} width="20vh" height="20vh" />
                     <input className="pl-5" type="button" value="Google" />
                   </div>
 
-                  <div className="flex p-2 items-center justify-center bg-[#ffffff] shadow-sm w-1/2">
+                  <div className="flex w-1/2 items-center justify-center bg-[#ffffff] p-2 shadow-sm">
                     <img src={fb} width="20vh" height="20vh" />
                     <input className="pl-5" type="button" value="Google" />
                   </div>
