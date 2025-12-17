@@ -6,17 +6,22 @@ const getNowPlayingMoviesThunk = createAsyncThunk(
   "movies/getNowPlayingMovies",
   async (payload, { rejectWithValue }) => {
     try {
+      await new Promise((res) =>
+        setTimeout(() => {
+          res();
+        }, 5000),
+      );
       const url = `${import.meta.env.VITE_MOVIE_API}?api_key=${
         import.meta.env.VITE_MOVIE_KEY
       }`;
       //const data = await getMoviesNowPlayingData(url);
       const data = await fetchUrl(url);
-      console.log(data, "hehehajakkaala");
+      // console.log(data, "hehehajakkaala");
       return data;
     } catch (error) {
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 const getUpcomingMoviesThunk = createAsyncThunk(
@@ -32,7 +37,7 @@ const getUpcomingMoviesThunk = createAsyncThunk(
     } catch (error) {
       rejectWithValue(error);
     }
-  }
+  },
 );
 
 const getDetailMoviesThunk = createAsyncThunk(
@@ -48,7 +53,7 @@ const getDetailMoviesThunk = createAsyncThunk(
     } catch (error) {
       rejectWithValue(error);
     }
-  }
+  },
 );
 
 const getGenreMoviesThunk = createAsyncThunk(
@@ -64,7 +69,7 @@ const getGenreMoviesThunk = createAsyncThunk(
     } catch (error) {
       rejectWithValue(error);
     }
-  }
+  },
 );
 
 const initialState = {
@@ -176,9 +181,6 @@ const moviesSlice = createSlice({
           prevState.errors.genre = payload;
         },
       });
-    // .addCase(getNowPlayingMoviesThunk.pending, () => {})
-    // .addCase(getNowPlayingMoviesThunk.fulfilled, () => {})
-    // .addCase(getNowPlayingMoviesThunk.rejected, () => {});
   },
 });
 

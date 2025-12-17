@@ -23,35 +23,35 @@ const usersSlice = createSlice({
     //   console.log(users);
     // },
 
-    loginUsers: (prevState, action) => {
-      const users = prevState.users.filter((user) => {
-        if (
-          user.email == action.payload.email &&
-          user.password == action.payload.password
-        ) {
-          //console.log("Maniss");
-          return user;
-        }
-      });
+    // loginUsers: (prevState, action) => {
+    //   const users = prevState.users.filter((user) => {
+    //     if (
+    //       user.email == action.payload.email &&
+    //       user.password == action.payload.password
+    //     ) {
+    //       //console.log("Maniss");
+    //       return user;
+    //     }
+    //   });
 
-      prevState.users = users;
+    //   prevState.users = users;
 
-      // console.log(prevState.users, "userku");
+    //   // console.log(prevState.users, "userku");
 
-      // const newUsers = prevState.users.map((user) => {
-      //   if (
-      //     user.email === action.payload.email &&
-      //     user.password === action.payload.password
-      //   ) {
-      //     console.log(action.payload, "datanya");
+    //   // const newUsers = prevState.users.map((user) => {
+    //   //   if (
+    //   //     user.email === action.payload.email &&
+    //   //     user.password === action.payload.password
+    //   //   ) {
+    //   //     console.log(action.payload, "datanya");
 
-      //     return action.payload;
-      //   }
-      //   console.log(user, "data user nya");
-      //   return user;
-      // });
-      // prevState.users = newUsers;
-    },
+    //   //     return action.payload;
+    //   //   }
+    //   //   console.log(user, "data user nya");
+    //   //   return user;
+    //   // });
+    //   // prevState.users = newUsers;
+    // },
   },
 });
 
