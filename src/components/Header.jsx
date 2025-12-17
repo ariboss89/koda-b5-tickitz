@@ -30,15 +30,12 @@ function Header() {
   return (
     <>
       <header>
-        <nav
-          className="bg-white fixed top-0 flex justify-between py-5 px-10 items-center shadow-2xs w-full z-20
-        md:py-5 md:px-20 "
-        >
+        <nav className="fixed top-0 z-20 flex w-full items-center justify-between bg-white/60 px-10 py-5 shadow-2xs backdrop-blur-md md:px-20 md:py-5">
           <div className="flex justify-center">
             <img className="w-30" src={LogoNav} />
           </div>
 
-          <ul className="hidden md:flex md:justify-between md:gap-5 md:font-mulish md:cursor-pointer">
+          <ul className="md:font-mulish hidden md:flex md:cursor-pointer md:justify-between md:gap-5">
             <li>
               <Link
                 to={"/"}
@@ -59,10 +56,10 @@ function Header() {
           </ul>
 
           {email != null ? (
-            <div className="md:flex md:justify-center md:items-center md:gap-5">
+            <div className="md:flex md:items-center md:justify-center md:gap-5">
               <p className="text-black first-letter:text-xl">Hi, {email}</p>
               <button
-                className="font-mulish rounded-sm p-2 border-2 border-solid bg-primary border-primary text-white"
+                className="font-mulish bg-primary border-primary rounded-sm border-2 border-solid p-2 text-white"
                 onClick={logout}
               >
                 Logout
@@ -71,13 +68,13 @@ function Header() {
           ) : (
             <div className="hidden md:flex md:justify-between md:gap-5">
               <button
-                className="font-mulish rounded-sm border-2 border-solid border-primary p-2"
+                className="font-mulish border-primary rounded-sm border-2 border-solid p-2"
                 onClick={goToSignIn}
               >
                 Sign In
               </button>
               <button
-                className="font-mulish rounded-sm p-2 border-2 border-solid bg-primary border-primary text-white"
+                className="font-mulish bg-primary border-primary rounded-sm border-2 border-solid p-2 text-white"
                 onClick={goToSignUp}
               >
                 Sign Up
@@ -85,7 +82,7 @@ function Header() {
             </div>
           )}
 
-          <div className="flex justify-center items-center md:hidden lg:hidden">
+          <div className="flex items-center justify-center md:hidden lg:hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               x="0px"
