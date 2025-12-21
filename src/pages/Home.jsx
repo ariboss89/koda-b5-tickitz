@@ -6,16 +6,10 @@ import Hero4 from "../assets/img4.png";
 import Cs1 from "../assets/shield.png";
 import Cs2 from "../assets/check.png";
 import Cs3 from "../assets/bubble.png";
-import Movie1 from "../assets/movie1.png";
-import Movie2 from "../assets/movie2.png";
-import Movie3 from "../assets/movie3.png";
-import Movie4 from "../assets/movie4.png";
 import Header from "../components/Header";
-import Footer from "../components/Footer";
 import Subscribe from "../components/Subscribe";
-import Movies from "../components/Movies";
 import { format } from "date-fns";
-import { Link } from "react-router";
+import { data, Link } from "react-router";
 import { movieActions } from "../redux/slices/movies.slice";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
@@ -23,99 +17,19 @@ import Loader from "../components/Loader";
 function Home() {
   const [nextFilm, setNextFilm] = useState(4);
   const [previousFilm, setPreviousFilm] = useState(0);
-  const [maxMovie, setMaxMovie] = useState(20);
+  const [maxMovie, _] = useState(20);
 
   const dispatch = useDispatch();
   const moviesState = useSelector((state) => state.movies);
 
   useEffect(() => {
     dispatch(movieActions.getNowPlayingMoviesThunk());
-    dispatch(movieActions.getUpcomingMoviesThunk());
     dispatch(movieActions.getGenreMoviesThunk());
+  }, []);
+
+  useEffect(() => {
+    dispatch(movieActions.getUpcomingMoviesThunk());
   }, [nextFilm, previousFilm]);
-
-  const genres = [
-    {
-      id: 28,
-      name: "Action",
-    },
-    {
-      id: 12,
-      name: "Abenteuer",
-    },
-    {
-      id: 16,
-      name: "Animation",
-    },
-    {
-      id: 35,
-      name: "Komödie",
-    },
-    {
-      id: 80,
-      name: "Krimi",
-    },
-    {
-      id: 99,
-      name: "Dokumentarfilm",
-    },
-    {
-      id: 18,
-      name: "Drama",
-    },
-    {
-      id: 10751,
-      name: "Familie",
-    },
-    {
-      id: 14,
-      name: "Fantasy",
-    },
-    {
-      id: 36,
-      name: "Historie",
-    },
-    {
-      id: 27,
-      name: "Horror",
-    },
-    {
-      id: 10402,
-      name: "Musik",
-    },
-    {
-      id: 9648,
-      name: "Mystery",
-    },
-    {
-      id: 10749,
-      name: "Liebesfilm",
-    },
-    {
-      id: 878,
-      name: "Science Fiction",
-    },
-    {
-      id: 10770,
-      name: "TV-Film",
-    },
-    {
-      id: 53,
-      name: "Thriller",
-    },
-    {
-      id: 10752,
-      name: "Kriegsfilm",
-    },
-    {
-      id: 37,
-      name: "Western",
-    },
-  ];
-
-  const genreAll = movieActions.genre;
-
-  console.log(genreAll, "all genre");
 
   function next() {
     if (nextFilm < maxMovie) {
@@ -133,9 +47,8 @@ function Home() {
     }
   }
 
-  // function onClickDetail(id) {
-  //   navigate(`/movies/${id}`);
-  // }
+  const dataku = moviesState.upcoming;
+  console.log(dataku, "aapaapa");
 
   return (
     <div>
@@ -237,34 +150,31 @@ function Home() {
           </div>
 
           <div className="mt-20 mb-10 flex flex-col justify-between gap-5 md:flex-row">
-            <div className="flex flex-col px-10 md:px-20">
+            <div className="flex w-full flex-col px-10 md:px-20">
               <p className="font-mulish text-primary text-center text-lg font-bold">
                 MOVIES
               </p>
               <p className="font-mulish text-center text-[32px]">
                 Exciting Movie That Should Be Watched Today
               </p>
-              {/* [-ms-overflow-style:none] [scrollbar-width:none] sm:hidden */}
-              <div className="mt-5 flex min-h-[172px] min-w-full snap-x snap-mandatory items-center justify-center gap-5 overflow-x-scroll md:snap-none [&::-webkit-scrollbar]:hidden">
+              <div className="mt-5 flex min-h-[405px] min-w-full snap-x snap-mandatory items-center justify-center gap-5 overflow-x-scroll md:snap-none [&::-webkit-scrollbar]:hidden">
                 {moviesState.fetchStatus.nowPlaying.isLoading == true ? (
-                  // <Loader />
-                  <div class="flex w-full flex-row items-center justify-center gap-2 bg-amber-300">
-                    <div class="h-4 w-4 animate-bounce rounded-full bg-blue-700"></div>
-                    <div class="h-4 w-4 animate-bounce rounded-full bg-blue-700 [animation-delay:-.3s]"></div>
-                    <div class="h-4 w-4 animate-bounce rounded-full bg-blue-700 [animation-delay:-.5s]"></div>
-                  </div>
+                  <Loader />
                 ) : (
-                  <div className="mt-5 grid min-h-[405px] grid-cols-4 gap-4">
+                  <div className="mt-5 flex min-h-[405px] gap-2 overflow-x-scroll md:snap-none [&::-webkit-scrollbar]:hidden">
                     {moviesState.nowPlaying.slice(0, 4).map((movie, idx) => {
                       return (
-                        <div key={idx} className="relative w-full snap-start">
+                        <div
+                          key={idx}
+                          className="relative min-w-3/5 snap-start sm:min-w-1/2 md:min-w-2/5 lg:min-w-1/4"
+                        >
                           <div className="group relative">
                             <img
                               src={`${import.meta.env.VITE_BACKDROP_PATH}/${
                                 movie.poster_path
                               }`}
                               alt={"gambar"}
-                              className="min-h-80 w-full rounded-xl object-cover sm:h-96 md:h-100 lg:h-110"
+                              className="min-h-80 min-w-full rounded-xl object-cover sm:h-96 md:h-100 lg:h-110"
                             />
                             <div className="bg-opacity-70 absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-xl bg-black/65 opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:gap-4">
                               <button className="rounded-lg border-2 border-solid border-white px-12 py-2 text-sm font-semibold text-white transition hover:border-[#1a45b8] hover:bg-[#1a45b8] sm:px-16 sm:py-3 sm:text-base md:px-20">
@@ -282,22 +192,22 @@ function Home() {
                             {format(movie.release_date, "MMMM yyyy")}
                           </p>
                           <div className="my-1 flex flex-wrap gap-1">
-                            {movie.genre_ids.map((id, idx) => {
-                              const genres2 = moviesState.genre;
-                              console.log(genres2, "");
-
-                              const newGenre = genres.find((x) => x.id == id);
-                              if (newGenre.id == id) {
-                                return (
-                                  <p
-                                    key={idx}
-                                    className="bg-smoke text-secondary rounded-2xl px-2 text-justify text-[16px] select-none"
-                                  >
-                                    {newGenre.name}
-                                  </p>
-                                );
-                              }
-                            })}
+                            {movie.genre_ids != null &&
+                              movie.genre_ids.map((id, idx) => {
+                                const genres = moviesState.genre.genres;
+                                const newGenre =
+                                  genres && genres.find((x) => x.id == id);
+                                if (newGenre && newGenre.id == id) {
+                                  return (
+                                    <p
+                                      key={idx}
+                                      className="bg-smoke text-secondary rounded-2xl px-2 text-justify text-[16px] select-none"
+                                    >
+                                      {newGenre.name}
+                                    </p>
+                                  );
+                                }
+                              })}
                           </div>
                         </div>
                       );
@@ -310,14 +220,7 @@ function Home() {
 
           <div className="flex cursor-pointer items-center justify-center gap-2">
             <p className="text-primary text-lg">
-              <Link
-                to={"/Movies"}
-                // className={
-                //   location.pathname === "/Movies" ? "text-gray-600" : ""
-                // }
-              >
-                View All
-              </Link>
+              <Link to={"/Movies"}>View All</Link>
             </p>
             <svg
               width="20"
@@ -348,14 +251,14 @@ function Home() {
           <div className="mt-20 mb-10 flex flex-col justify-between gap-5">
             <div className="flex justify-between">
               <div className="flex flex-col px-20">
-                <p className="font-mulish text-primary text-left text-lg font-bold">
+                <p className="font-mulish text-primary text-center text-lg font-bold md:text-left">
                   UPCOMING MOVIES
                 </p>
-                <p className="font-mulish text-left text-[32px]">
+                <p className="font-mulish text-center text-[32px] md:text-left">
                   Exciting Movie Coming Soon
                 </p>
               </div>
-              <div className="flex flex-row items-end justify-center gap-2 px-20">
+              <div className="hidden md:flex md:flex-row md:items-end md:justify-center md:gap-2 md:px-20">
                 <div
                   className="bg-secondary flex h-15 w-15 rotate-180 cursor-pointer items-center justify-center rounded-full hover:bg-gray-500"
                   onClick={previous}
@@ -412,14 +315,54 @@ function Home() {
                 </div>
               </div>
             </div>
-            {/* {moviesState.fetchStatus.upcoming.isLoading == true ? (
-              <Loader />
-            ) :  */}
-            (
-            <div className="mt-5 grid min-h-[405px] grid-cols-4 gap-4 px-20">
-              {moviesState.upcoming
-                .slice(previousFilm, nextFilm)
-                .map((movie, idx) => {
+            <div className="md:w-min-1/4 mt-5 hidden sm:hidden md:flex md:min-h-[405px] md:gap-4 md:overflow-x-clip md:px-20 [&::-webkit-scrollbar]:hidden">
+              {moviesState.upcoming.results != null &&
+                moviesState.upcoming.results
+                  .slice(previousFilm, nextFilm)
+                  .map((movie, idx) => {
+                    return (
+                      <div key={idx} className={"flex min-w-[264px] flex-col"}>
+                        <div className="min-h-[405px]">
+                          <img
+                            className="h-full rounded-md select-none"
+                            src={`${import.meta.env.VITE_BACKDROP_PATH}/${
+                              movie.poster_path
+                            }`}
+                            alt="shield"
+                          />
+                        </div>
+                        <p className="font-mulish mt-3 text-2xl font-bold">
+                          {movie.title}
+                        </p>
+                        <p className="font-mulish text-primary text-lg font-bold">
+                          {format(movie.release_date, "MMMM yyyy")}
+                        </p>
+                        <div className="my-1 flex flex-wrap gap-1">
+                          {movie.genre_ids.map((id, idx) => {
+                            const genres = moviesState.genre.genres;
+                            const newGenre =
+                              genres && genres.find((x) => x.id == id);
+
+                            if (newGenre && newGenre.id == id) {
+                              return (
+                                <p
+                                  key={idx}
+                                  className="bg-smoke text-secondary rounded-2xl px-2 text-justify text-[16px] select-none"
+                                >
+                                  {newGenre.name}
+                                </p>
+                              );
+                            }
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+            </div>
+            <div className="mt-5 flex min-h-[405px] min-w-3/5 snap-center gap-4 overflow-x-scroll px-20 md:hidden [&::-webkit-scrollbar]:hidden">
+              {/* <div className="mt-5 flex min-h-[405px] gap-2 overflow-x-scroll md:snap-none [&::-webkit-scrollbar]:hidden"> */}
+              {moviesState.upcoming.results != null &&
+                moviesState.upcoming.results.map((movie, idx) => {
                   return (
                     <div key={idx} className={"flex min-w-[264px] flex-col"}>
                       <div className="min-h-[405px]">
@@ -438,25 +381,28 @@ function Home() {
                         {format(movie.release_date, "MMMM yyyy")}
                       </p>
                       <div className="my-1 flex flex-wrap gap-1">
-                        {movie.genre_ids.map((id, idx) => {
-                          const newGenre = genres.find((x) => x.id == id);
-                          if (newGenre.id == id) {
-                            return (
-                              <p
-                                key={idx}
-                                className="bg-smoke text-secondary rounded-2xl px-2 text-justify text-[16px] select-none"
-                              >
-                                {newGenre.name}
-                              </p>
-                            );
-                          }
-                        })}
+                        {movie.genre_ids != null &&
+                          movie.genre_ids.map((id, idx) => {
+                            const genres = moviesState.genre.genres;
+                            const newGenre =
+                              genres && genres.find((x) => x.id == id);
+
+                            if (newGenre && newGenre.id == id) {
+                              return (
+                                <p
+                                  key={idx}
+                                  className="bg-smoke text-secondary rounded-2xl px-2 text-justify text-[16px] select-none"
+                                >
+                                  {newGenre.name}
+                                </p>
+                              );
+                            }
+                          })}
                       </div>
                     </div>
                   );
                 })}
             </div>
-            )
           </div>
         </section>
 
