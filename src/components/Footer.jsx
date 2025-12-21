@@ -3,9 +3,9 @@ import React from "react";
 function Footer() {
   return (
     <>
-      <footer className="pt-20 flex md:flex md:flex-col">
-        <div className="flex justify-between items-start gap-20 px-20 md:flex-col lg:flex-row">
-          <div className="flex flex-col justify-start items-start select-none">
+      <footer className="flex flex-col pt-20 md:flex-row">
+        <div className="flex flex-col items-start justify-between gap-20 px-20 md:flex-col lg:flex-row">
+          <div className="flex flex-col items-start justify-start select-none">
             <svg
               width="184"
               height="72"
@@ -27,36 +27,36 @@ function Footer() {
               />
             </svg>
 
-            <p className="font-mulish text-[16px] text-secondary">
+            <p className="font-mulish text-secondary text-[16px]">
               Stop waiting in line. Buy tickets
             </p>
-            <p className="font-mulish text-[16px] text-secondary">
+            <p className="font-mulish text-secondary text-[16px]">
               conveniently, watch movies quietly.
             </p>
           </div>
           <div className="flex flex-col gap-2">
-            <p className="font-mulish text-[16px] text-black font-bold ">
+            <p className="font-mulish text-[16px] font-bold text-black">
               Explore
             </p>
-            <p className="font-mulish text-sm text-secondary mt-2 cursor-pointer">
+            <p className="font-mulish text-secondary mt-2 cursor-pointer text-sm">
               Cinemas
             </p>
-            <p className="font-mulish text-sm text-secondary cursor-pointer">
+            <p className="font-mulish text-secondary cursor-pointer text-sm">
               Movies List
             </p>
-            <p className="font-mulish text-sm text-secondary cursor-pointer">
+            <p className="font-mulish text-secondary cursor-pointer text-sm">
               My Ticket
             </p>
-            <p className="font-mulish text-sm text-secondary cursor-pointer">
+            <p className="font-mulish text-secondary cursor-pointer text-sm">
               Notification
             </p>
           </div>
 
           <div className="flex flex-col gap-2">
-            <p className="font-mulish text-[16px] text-black font-bold ">
+            <p className="font-mulish text-[16px] font-bold text-black">
               Our Sponsor
             </p>
-            <div className="font-mulish text-sm text-secondary mt-2 cursor-pointer">
+            <div className="font-mulish text-secondary mt-2 cursor-pointer text-sm">
               <svg
                 width="122"
                 height="46"
@@ -78,7 +78,7 @@ function Footer() {
               </svg>
             </div>
 
-            <div className="font-mulish text-sm text-secondary cursor-pointer">
+            <div className="font-mulish text-secondary cursor-pointer text-sm">
               <svg
                 width="174"
                 height="28"
@@ -92,7 +92,7 @@ function Footer() {
                 />
               </svg>
             </div>
-            <div className="font-mulish text-sm text-secondary cursor-pointer">
+            <div className="font-mulish text-secondary cursor-pointer text-sm">
               <svg
                 width="80"
                 height="26"
@@ -108,11 +108,11 @@ function Footer() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-2 mr-10 ">
-            <p className="font-mulish text-[16px] text-black font-bold">
+          <div className="mr-10 flex flex-col gap-2">
+            <p className="font-mulish text-[16px] font-bold text-black">
               Follow us
             </p>
-            <div className="flex font-mulish items-center text-sm text-secondary mt-2 gap-2 cursor-pointer">
+            <div className="font-mulish text-secondary mt-2 flex cursor-pointer items-center gap-2 text-sm">
               <svg
                 width="24"
                 height="24"
@@ -128,7 +128,7 @@ function Footer() {
               <p className="text-sm">Tickitz cinema id</p>
             </div>
 
-            <div className="flex font-mulish items-center text-sm text-secondary mt-2 gap-2 cursor-pointer">
+            <div className="font-mulish text-secondary mt-2 flex cursor-pointer items-center gap-2 text-sm">
               <svg
                 width="24"
                 height="24"
@@ -153,7 +153,7 @@ function Footer() {
               <p className="text-sm">tickitz.id</p>
             </div>
 
-            <div className="flex font-mulish items-center text-sm text-secondary mt-2 gap-2 cursor-pointer">
+            <div className="font-mulish text-secondary mt-2 flex cursor-pointer items-center gap-2 text-sm">
               <svg
                 width="24"
                 height="24"
@@ -170,7 +170,7 @@ function Footer() {
               <p className="text-sm">tickitz.id</p>
             </div>
 
-            <div className="flex font-mulish items-center text-sm text-secondary mt-2 gap-2 cursor-pointer">
+            <div className="font-mulish text-secondary mt-2 flex cursor-pointer items-center gap-2 text-sm">
               <svg
                 width="24"
                 height="24"
@@ -198,7 +198,7 @@ function Footer() {
             </div>
           </div>
         </div>
-        <div className="flex justify-center font-mulish text-sm text-secondary mt-20 mb-15 ">
+        <div className="font-mulish text-secondary mt-20 mb-15 flex justify-center text-sm">
           © 2020 Tickitz. All Rights Reserved.
         </div>
       </footer>
