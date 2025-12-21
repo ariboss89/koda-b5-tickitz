@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import Movie1 from "../assets/movie1.png";
 import { useNavigate, useParams, useSearchParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { movieActions } from "../redux/slices/movies.slice";
+import TickitzModal from "../components/TickitzModal";
 
 function DetailMovie() {
   const { id } = useParams();
@@ -31,13 +29,22 @@ function DetailMovie() {
 
   const users = useSelector((state) => state.users);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [title, setTitle] = useState("");
+  const [type, setType] = useState("");
+
+  const handleCloseModal = () => setIsModalOpen(false);
+
   const submitHandler = (e) => {
     e.preventDefault();
     if (query.date != "" && query.time != "" && query.location != "") {
       setSearchParam(new URLSearchParams(query));
     } else {
-      //console.log(query, "aaa");
-      alert("Tanggal dan waktu belum dipilih");
+      setType("error");
+      setTitle("Error Message");
+      setMessage(`Tanggal dan waktu belum dipilih`);
+      setIsModalOpen(true);
     }
   };
 
@@ -51,7 +58,10 @@ function DetailMovie() {
           `/movies/buyticket/${idMovies}?date=${date}&&time=${time}&&location=${location}`,
         );
       } else {
-        alert("Silahkan pilih lokasi menonton anda !!");
+        setType("error");
+        setTitle("Error Message");
+        setMessage(`Silahkan pilih lokasi menonton anda !!`);
+        setIsModalOpen(true);
       }
     } else {
       navigate(`/auth/login`, { replace: true });
@@ -237,6 +247,14 @@ function DetailMovie() {
                   />
                 </div>
               </div>
+              <TickitzModal
+                isOpen={true}
+                show={isModalOpen}
+                onClose={handleCloseModal}
+                message={message}
+                title={title}
+                type={type}
+              />
             </form>
           </div>
 
