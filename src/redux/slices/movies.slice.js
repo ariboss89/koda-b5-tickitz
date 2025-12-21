@@ -9,14 +9,13 @@ const getNowPlayingMoviesThunk = createAsyncThunk(
       await new Promise((res) =>
         setTimeout(() => {
           res();
-        }, 5000),
+        }, 2000),
       );
       const url = `${import.meta.env.VITE_MOVIE_API}?api_key=${
         import.meta.env.VITE_MOVIE_KEY
       }`;
       //const data = await getMoviesNowPlayingData(url);
       const data = await fetchUrl(url);
-      // console.log(data, "hehehajakkaala");
       return data;
     } catch (error) {
       return rejectWithValue(error);
@@ -28,11 +27,15 @@ const getUpcomingMoviesThunk = createAsyncThunk(
   "movies/getUpcomingMovies",
   async (payload, { rejectWithValue }) => {
     try {
+      await new Promise((res) =>
+        setTimeout(() => {
+          res();
+        }, 2000),
+      );
       const url = `${import.meta.env.VITE_MOVIE_UPCOMING}?api_key=${
         import.meta.env.VITE_MOVIE_KEY
       }`;
       const data = await fetchUrl(url);
-      console.log(data);
       return data;
     } catch (error) {
       rejectWithValue(error);
@@ -48,7 +51,6 @@ const getDetailMoviesThunk = createAsyncThunk(
         import.meta.env.VITE_MOVIE_KEY
       }`;
       const data = await fetchUrl(url);
-      console.log(data, "aomm");
       return data;
     } catch (error) {
       rejectWithValue(error);
@@ -58,16 +60,46 @@ const getDetailMoviesThunk = createAsyncThunk(
 
 const getGenreMoviesThunk = createAsyncThunk(
   "movies/getGenre",
-  async (id, { rejectWithValue }) => {
+  async (payload, { rejectWithValue }) => {
     try {
+      await new Promise((res) =>
+        setTimeout(() => {
+          res();
+        }, 5000),
+      );
       const url = `${import.meta.env.VITE_MOVIE_GENRE}?api_key=${
         import.meta.env.VITE_MOVIE_KEY
       }`;
       const data = await fetchUrl(url);
-      console.log(data, "heheh");
       return data;
     } catch (error) {
       rejectWithValue(error);
+    }
+  },
+);
+
+const getMoviesByNameThunk = createAsyncThunk(
+  "movies/getMoviesByName",
+  async (payload, { rejectWithValue }) => {
+    try {
+      // await new Promise((res) =>
+      //   setTimeout(() => {
+      //     res();
+      //   }, 2000),
+      // );
+      const url = `${import.meta.env.VITE_MOVIE_SEARCH}api_key=${
+        import.meta.env.VITE_MOVIE_KEY
+      }&page=${payload.page}&query=${payload.search}`;
+
+      // console.log(payload.page, payload.search, "data2ku");
+      console.log(payload.search, "aaabintang");
+
+      //const data = await getMoviesNowPlayingData(url);
+      const data = await fetchUrl(url);
+      console.log(data);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
     }
   },
 );
@@ -77,6 +109,7 @@ const initialState = {
   upcoming: [],
   detail: [],
   genre: [],
+  search: [],
   fetchStatus: {
     nowPlaying: {
       isLoading: false,
@@ -98,12 +131,18 @@ const initialState = {
       isSuccess: false,
       isFailed: false,
     },
+    search: {
+      isLoading: false,
+      isSuccess: false,
+      isFailed: false,
+    },
   },
   errors: {
     nowPlaying: null,
     upcoming: null,
     detail: null,
     genre: null,
+    search: null,
   },
 };
 
@@ -139,7 +178,7 @@ const moviesSlice = createSlice({
         fulfilled: (prevState, { payload }) => {
           prevState.fetchStatus.upcoming.isLoading = false;
           prevState.fetchStatus.upcoming.isSuccess = true;
-          prevState.upcoming = payload.results;
+          prevState.upcoming = payload;
         },
         rejected: (prevState, { payload }) => {
           prevState.fetchStatus.upcoming.isLoading = false;
@@ -180,6 +219,23 @@ const moviesSlice = createSlice({
           prevState.fetchStatus.genre.isSuccess = true;
           prevState.errors.genre = payload;
         },
+      })
+      .addAsyncThunk(getMoviesByNameThunk, {
+        pending: (prevState) => {
+          prevState.fetchStatus.search.isLoading = true;
+          prevState.fetchStatus.search.isSuccess = false;
+          prevState.fetchStatus.search.isFailed = false;
+        },
+        fulfilled: (prevState, { payload }) => {
+          prevState.fetchStatus.search.isLoading = false;
+          prevState.fetchStatus.search.isSuccess = true;
+          prevState.search = payload;
+        },
+        rejected: (prevState, { payload }) => {
+          prevState.fetchStatus.search.isLoading = false;
+          prevState.fetchStatus.search.isSuccess = true;
+          prevState.errors.search = payload;
+        },
       });
   },
 });
@@ -190,5 +246,6 @@ export const movieActions = {
   getUpcomingMoviesThunk,
   getDetailMoviesThunk,
   getGenreMoviesThunk,
+  getMoviesByNameThunk,
 };
 export default moviesSlice.reducer;
