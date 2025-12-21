@@ -2,9 +2,13 @@ import { Link, useNavigate } from "react-router";
 import LogoNav from "../assets/logo-nav.png";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../redux/slices/user.slice";
 
 function Header() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.users);
   const showSwal = () => {
     withReactContent(Swal).fire({
       title: <i>Information</i>,
@@ -13,19 +17,17 @@ function Header() {
   };
 
   const goToSignIn = () => {
-    navigate(`auth/login`, { replace: true });
+    navigate(`/auth/login`, { replace: true });
   };
 
   const goToSignUp = () => {
-    navigate(`auth/register`, { replace: true });
+    navigate(`/auth/register`, { replace: true });
   };
 
-  const logout = () => {
-    localStorage.clear();
-    navigate(`/`, { replace: true });
+  const signOut = () => {
+    dispatch(logout());
+    navigate(`/`);
   };
-
-  const email = localStorage.getItem("email");
 
   return (
     <>
@@ -55,12 +57,14 @@ function Header() {
             <li onClick={showSwal}>Buy Ticket</li>
           </ul>
 
-          {email != null ? (
+          {users.email != "" && users.isLogin != false ? (
             <div className="md:flex md:items-center md:justify-center md:gap-5">
-              <p className="text-black first-letter:text-xl">Hi, {email}</p>
+              <p className="text-black first-letter:text-xl">
+                Hi, {users.email}
+              </p>
               <button
                 className="font-mulish bg-primary border-primary rounded-sm border-2 border-solid p-2 text-white"
-                onClick={logout}
+                onClick={signOut}
               >
                 Logout
               </button>
