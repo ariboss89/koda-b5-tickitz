@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { format } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,14 +9,26 @@ function Movies() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const moviesState = useSelector((state) => state.movies);
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const search = urlParams.get("search");
+  const page = urlParams.get("page");
+  const [param, _] = useState({
+    search: search,
+    page: page,
+  });
+
+  console.log(search, page, "search param");
+
+  // setParam.search(search);
+  // setParam.page(page);
+  const aaa = moviesState.search;
+  console.log(aaa, "aaaa");
 
   useEffect(() => {
-    dispatch(movieActions.getUpcomingMoviesThunk());
+    dispatch(movieActions.getMoviesByNameThunk(param));
     dispatch(movieActions.getGenreMoviesThunk());
   }, []);
-
-  const dataku = moviesState.upcoming;
-  console.log(dataku, "hasil movies no filter");
 
   const handleMovieClick = (movieId) => {
     navigate(`${movieId}`);
@@ -33,8 +45,7 @@ function Movies() {
           <Loader />
         </div>
       ) : (
-        moviesState.upcoming.results &&
-        moviesState.upcoming.results.map((movie, idx) => {
+        moviesState.search.results.map((movie, idx) => {
           return (
             <div
               key={idx}
@@ -45,7 +56,7 @@ function Movies() {
                   src={`${import.meta.env.VITE_BACKDROP_PATH}/${
                     movie.poster_path
                   }`}
-                  alt={"gambar"}
+                  alt={movie.title}
                   className="min-h-80 min-w-full rounded-xl object-cover sm:h-96 md:h-100 lg:h-110"
                 />
                 <div className="bg-opacity-70 absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-xl bg-black/65 opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:gap-4">
