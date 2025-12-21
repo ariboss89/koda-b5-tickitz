@@ -9,7 +9,7 @@ import eye from "../assets/eye.png";
 import eyeSlash from "../assets/eye-slash.png";
 import { Link, useNavigate } from "react-router";
 import useInput from "../hooks/useInput";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addUsers } from "../redux/slices/user.slice";
 
 function Register() {
@@ -17,6 +17,7 @@ function Register() {
   const [isChecked, setIsChecked] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
+  const users = useSelector((state) => state.users);
 
   function visible() {
     setShowPassword(!showPassword);
@@ -39,19 +40,22 @@ function Register() {
       passwordInput.value != "" &&
       isChecked != false
     ) {
-      const newUser = {};
-      Object.assign(newUser, {
-        email: emailInput.value,
-        password: passwordInput.value,
-        isLogin: false,
-      });
-      dispatch(addUsers(newUser));
-      navigate(`/auth/login`);
-    } else {
-      setIsChecked(false);
+      const checkUser = users.accounts.find((x) => x.email == emailInput.value);
+      if (checkUser == null) {
+        const newUser = {};
+        Object.assign(newUser, {
+          email: emailInput.value,
+          password: passwordInput.value,
+        });
+        dispatch(addUsers(newUser));
+        navigate(`/auth/login`);
+      } else {
+        setIsChecked(false);
+        console.log("user telah ditambahkan !!");
+      }
+      emailInput.reset();
+      passwordInput.reset();
     }
-    emailInput.reset();
-    passwordInput.reset();
   };
 
   const onCheckedHandler = (e) => {
@@ -126,7 +130,7 @@ function Register() {
                     value={passwordInput.value}
                   />
 
-                  <button onClick={visible}>
+                  <button type="button" onClick={visible}>
                     {showPassword == true ? (
                       <img className="h-8 w-8" src={eyeSlash} />
                     ) : (

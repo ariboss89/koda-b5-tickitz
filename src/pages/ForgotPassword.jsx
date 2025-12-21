@@ -5,26 +5,17 @@ import fb from "../assets/fb.png";
 import google from "../assets/google.png";
 import or from "../assets/or.png";
 import logo from "../assets/logo.png";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import useInput from "../hooks/useInput";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../redux/slices/user.slice";
-import Modal from "../components/TickitzModal";
-import TickitzModal from "../components/TickitzModal";
 
-function Login() {
+function ForgotPassword() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [isError, setIsError] = useState(false);
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [message, setMessage] = useState("");
-  const [title, setTitle] = useState("");
-  const [type, setType] = useState("");
-
-  const handleCloseModal = () => setIsModalOpen(false);
 
   function visible() {
     setIsError(false);
@@ -51,7 +42,7 @@ function Login() {
     });
 
     const checkUser = users.accounts.find((x) => x.email == emailInput.value);
-    console.log(checkUser, "aaa");
+    console.log(checkUser, "user");
 
     if (checkUser != null) {
       if (
@@ -61,16 +52,8 @@ function Login() {
         dispatch(loginUser(newUser));
         navigate("/");
       } else {
-        setType("error");
-        setTitle("Error Message");
-        setMessage(`Email ${emailInput.value} dan password salah !!`);
-        setIsModalOpen(true);
+        console.log("Password dan username salah");
       }
-    } else {
-      setType("error");
-      setTitle("Error Message");
-      setMessage(`Email ${emailInput.value} tidak tersedia !!`);
-      setIsModalOpen(true);
     }
 
     emailInput.reset();
@@ -94,13 +77,10 @@ function Login() {
               >
                 <div className="align-center mb-10 flex flex-col justify-between">
                   <div className="font-mulish flex flex-col items-start justify-start text-left text-3xl">
-                    Welcome Back 👋
-                  </div>
-                  <div className="font-mulish color-[#DEDEDE] flex flex-col items-start justify-start text-left">
-                    Sign in with your data that you entered during your
-                    registration
+                    Forgot Password
                   </div>
                 </div>
+
                 <label className="text-left">Email</label>
                 <div className="mt-5 w-full">
                   <input
@@ -113,32 +93,7 @@ function Login() {
                     placeholder="Enter your email"
                   />
                 </div>
-                <label className="mt-5 text-left">Password</label>
-                <div className="mt-5 flex w-full items-center justify-between border border-[#DEDEDE] pr-2">
-                  <input
-                    id="password"
-                    name="password"
-                    type={showPassword ? "text" : "password"}
-                    value={passwordInput.value}
-                    onChange={passwordInput.onChange}
-                    className="h-15 w-full rounded-xs pl-5 outline-none"
-                    placeholder="Enter your password"
-                  />
-                  <button type="button" onClick={visible}>
-                    {showPassword == true ? (
-                      <img className="h-8 w-8" src={eyeSlash} />
-                    ) : (
-                      <img className="h-8 w-8" src={eye} />
-                    )}
-                  </button>
-                </div>
-                <div className="align-end flex flex-row items-end justify-end text-[#1D4ED8]">
-                  <p className="mt-5 cursor-pointer text-right">
-                    <Link to={"/auth/forgotpassword"}>
-                      Forgot your password ?
-                    </Link>
-                  </p>
-                </div>
+
                 {isError == true ? (
                   <span className="mt-2 min-h-10 text-justify font-bold text-red-600">
                     Please input the correct email and password !!
@@ -146,14 +101,17 @@ function Login() {
                 ) : (
                   <span className="mt-2 min-h-10 text-justify font-bold text-red-600"></span>
                 )}
+
                 <input
                   type="submit"
                   className="mt-2 mb-5 w-full rounded-sm bg-[#1D4ED8] p-5 text-white"
-                  value="Login"
+                  value="Forgot Password"
                 />
+
                 <div className="align-center mb-5 flex flex-row items-center">
                   <img src={or} />
                 </div>
+
                 <div className="align-center flex items-center justify-center gap-10">
                   <div className="flex w-1/2 items-center justify-center bg-[#ffffff] p-2 shadow-sm">
                     <img src={fb} width="20vh" height="20vh" />
@@ -165,15 +123,6 @@ function Login() {
                     <input className="pl-5" type="button" value="Google" />
                   </div>
                 </div>
-
-                <TickitzModal
-                  isOpen={true}
-                  show={isModalOpen}
-                  onClose={handleCloseModal}
-                  message={message}
-                  title={title}
-                  type={type}
-                />
               </form>
             </div>
           </div>
@@ -183,4 +132,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default ForgotPassword;
