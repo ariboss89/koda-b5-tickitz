@@ -12,6 +12,7 @@ import DetailMovie from "./pages/DetailMovie";
 import BuyTicket from "./pages/BuyTicket";
 import PaymentInfo from "./pages/PaymentInfo";
 import TicketResult from "./pages/TicketResult";
+import ForgotPassword from "./pages/ForgotPassword";
 
 function Router() {
   return (
@@ -21,15 +22,15 @@ function Router() {
         <Route path="movies">
           <Route index element={<ViewAll />} />
           <Route path=":id/" element={<DetailMovie />} />
-          <Route path="buyticket/:id/:slug" element={<BuyTicket />} />
-          <Route path="payment/:id/:slug" element={<PaymentInfo />} />
-          <Route path="ticketresult/:id/:slug" element={<TicketResult />} />
+          <Route path="buyticket/:id?" element={<BuyTicket />} />
+          <Route path="payment/:id/" element={<PaymentInfo />} />
+          <Route path="ticketresult/:id/" element={<TicketResult />} />
         </Route>
       </Route>
-
       <Route path="auth" element={<AuthLayout />}>
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="forgotpassword" element={<ForgotPassword />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
