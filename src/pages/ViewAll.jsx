@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Subscribe from "../components/Subscribe";
-import Hero from "../assets/bg.png";
 import Movies from "../components/Movies";
 import MoviesFilter from "../components/MoviesFilter";
 import { useSearchParams } from "react-router";
@@ -205,8 +204,8 @@ function ViewAll() {
                           }}
                           className={
                             filter != ""
-                              ? "bg-primary h-10 w-full rounded-md px-5 py-2 text-white outline-none"
-                              : "text-secondary hover:bg-primary h-10 w-full rounded-md px-5 py-2 outline-none hover:text-white"
+                              ? "bg-gray h-10 w-full rounded-md border-2 border-[#DEDEDE] px-5 py-2 text-black outline-none"
+                              : "text-secondary hover:bg-primary bg-primary-200 h-10 w-full rounded-md px-5 py-2 outline-none hover:text-white"
                           }
                           value={genre.name}
                         />

@@ -16,7 +16,7 @@ function Movies() {
   }, []);
 
   const dataku = moviesState.upcoming;
-  console.log(dataku, "hasil movies no filter");
+  //.log(dataku, "hasil movies no filter");
 
   const handleMovieClick = (movieId) => {
     navigate(`${movieId}`);

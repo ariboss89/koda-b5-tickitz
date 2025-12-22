@@ -4,6 +4,8 @@ import { format } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
 import { movieActions } from "../redux/slices/movies.slice";
 import Loader from "./Loader";
+import ImgDefault from "../assets/logo.png";
+import Hero4 from "../assets/img4.png";
 
 function Movies() {
   const navigate = useNavigate();
@@ -18,12 +20,12 @@ function Movies() {
     page: page,
   });
 
-  console.log(search, page, "search param");
+  //console.log(search, page, "search param");
 
   // setParam.search(search);
   // setParam.page(page);
-  const aaa = moviesState.search;
-  console.log(aaa, "aaaa");
+  //const aaa = moviesState.search;
+  //console.log(aaa, "aaaa");
 
   useEffect(() => {
     dispatch(movieActions.getMoviesByNameThunk(param));
@@ -45,6 +47,7 @@ function Movies() {
           <Loader />
         </div>
       ) : (
+        moviesState.search.results &&
         moviesState.search.results.map((movie, idx) => {
           return (
             <div
@@ -53,9 +56,11 @@ function Movies() {
             >
               <div className="group relative">
                 <img
-                  src={`${import.meta.env.VITE_BACKDROP_PATH}/${
-                    movie.poster_path
-                  }`}
+                  src={
+                    movie.poster_path == null
+                      ? { Hero4 }
+                      : `${import.meta.env.VITE_BACKDROP_PATH}/${movie.poster_path}`
+                  }
                   alt={movie.title}
                   className="min-h-80 min-w-full rounded-xl object-cover sm:h-96 md:h-100 lg:h-110"
                 />
