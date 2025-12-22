@@ -58,7 +58,7 @@ function Header() {
           </ul>
 
           {users.email != "" && users.isLogin != false ? (
-            <div className="md:flex md:items-center md:justify-center md:gap-5">
+            <div className="hidden md:flex md:items-center md:justify-center md:gap-5">
               <p className="text-black first-letter:text-xl">
                 Hi, {users.email}
               </p>

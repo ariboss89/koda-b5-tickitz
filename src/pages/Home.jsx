@@ -9,7 +9,7 @@ import Cs3 from "../assets/bubble.png";
 import Header from "../components/Header";
 import Subscribe from "../components/Subscribe";
 import { format } from "date-fns";
-import { data, Link } from "react-router";
+import { data, Link, useNavigate } from "react-router";
 import { movieActions } from "../redux/slices/movies.slice";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
@@ -19,6 +19,7 @@ function Home() {
   const [previousFilm, setPreviousFilm] = useState(0);
   const [maxMovie, _] = useState(20);
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const moviesState = useSelector((state) => state.movies);
 
@@ -46,6 +47,10 @@ function Home() {
       console.log(nextFilm, previousFilm, "klik previous");
     }
   }
+
+  const handleMovieClick = (movieId) => {
+    navigate(`/movies/${movieId}`);
+  };
 
   const dataku = moviesState.upcoming;
   console.log(dataku, "aapaapa");
@@ -177,7 +182,13 @@ function Home() {
                               className="min-h-80 min-w-full rounded-xl object-cover sm:h-96 md:h-100 lg:h-110"
                             />
                             <div className="bg-opacity-70 absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-xl bg-black/65 opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:gap-4">
-                              <button className="rounded-lg border-2 border-solid border-white px-12 py-2 text-sm font-semibold text-white transition hover:border-[#1a45b8] hover:bg-[#1a45b8] sm:px-16 sm:py-3 sm:text-base md:px-20">
+                              <button
+                                className="rounded-lg border-2 border-solid border-white px-12 py-2 text-sm font-semibold text-white transition hover:border-[#1a45b8] hover:bg-[#1a45b8] sm:px-16 sm:py-3 sm:text-base md:px-20"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleMovieClick(movie.id);
+                                }}
+                              >
                                 Details
                               </button>
                               <button className="rounded-lg bg-[#1a45b8] px-10 py-2 text-sm font-semibold text-white transition hover:bg-gray-100 hover:text-black sm:px-14 sm:py-3 sm:text-base md:px-17">
