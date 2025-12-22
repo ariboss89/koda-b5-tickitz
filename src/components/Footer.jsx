@@ -3,7 +3,7 @@ import React from "react";
 function Footer() {
   return (
     <>
-      <footer className="flex flex-col pt-20 md:flex-row">
+      <footer className="flex flex-col pt-20">
         <div className="flex flex-col items-start justify-between gap-20 px-20 md:flex-col lg:flex-row">
           <div className="flex flex-col items-start justify-start select-none">
             <svg

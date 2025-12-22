@@ -54,7 +54,13 @@ function Header() {
                 Movie
               </Link>
             </li>
-            <li onClick={showSwal}>Buy Ticket</li>
+            {/* <li onClick={showSwal}>Buy Ticket</li> */}
+            <Link
+              to={"/movies"}
+              className={location.pathname == "/movies" ? "text-primary" : ""}
+            >
+              Buy Ticket
+            </Link>
           </ul>
 
           {users.email != "" && users.isLogin != false ? (
