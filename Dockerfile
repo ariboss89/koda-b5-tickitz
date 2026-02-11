@@ -1,5 +1,5 @@
 # Use the latest LTS version of Node.js
-FROM alpine:latest AS build
+FROM node:lts-alpine3.23 AS build
 # Set the working directory inside the container
 WORKDIR /app
 # Copy package.json and package-lock.json
