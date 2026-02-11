@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import eye from "../assets/eye.png";
 import eyeSlash from "../assets/eye-slash.png";
 import fb from "../assets/fb.png";
@@ -8,7 +8,7 @@ import logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router";
 import useInput from "../hooks/useInput";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../redux/slices/user.slice";
+import { userActions } from "../redux/slices/user.slice";
 import Modal from "../components/TickitzModal";
 import TickitzModal from "../components/TickitzModal";
 
@@ -17,7 +17,6 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [isError, setIsError] = useState(false);
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.users);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [message, setMessage] = useState("");
@@ -25,6 +24,7 @@ function Login() {
   const [type, setType] = useState("");
 
   const handleCloseModal = () => setIsModalOpen(false);
+  const usersState = useSelector((state) => state.users);
 
   function visible() {
     setIsError(false);
@@ -41,38 +41,31 @@ function Login() {
     minLength: 8,
   });
 
+  useEffect(() => {
+    (() => {
+      console.log(usersState.fetchStatus.nowLogin.errorMessage, "err");
+      if (usersState.fetchStatus.nowLogin.errorMessage) {
+        setType("error");
+        setTitle("Error Message");
+        setMessage(usersState.fetchStatus.nowLogin.errorMessage);
+        setIsModalOpen(true);
+      } else if (usersState.email != null) {
+        navigate("/");
+      }
+    })();
+  }, [usersState.fetchStatus.nowLogin.errorMessage]);
+
   const submitHandler = (event) => {
     event.preventDefault();
-
     const newUser = {};
     Object.assign(newUser, {
       email: emailInput.value,
       password: passwordInput.value,
     });
 
-    const checkUser = users.accounts.find((x) => x.email == emailInput.value);
-    console.log(checkUser, "aaa");
-
-    if (checkUser != null) {
-      if (
-        checkUser.email == emailInput.value &&
-        checkUser.password == passwordInput.value
-      ) {
-        dispatch(loginUser(newUser));
-        navigate("/");
-      } else {
-        setType("error");
-        setTitle("Error Message");
-        setMessage(`Email ${emailInput.value} dan password salah !!`);
-        setIsModalOpen(true);
-      }
-    } else {
-      setType("error");
-      setTitle("Error Message");
-      setMessage(`Email ${emailInput.value} tidak tersedia !!`);
-      setIsModalOpen(true);
+    if (emailInput.value != "" && passwordInput.value) {
+      dispatch(userActions.loginUserThunk(newUser));
     }
-
     emailInput.reset();
     passwordInput.reset();
   };

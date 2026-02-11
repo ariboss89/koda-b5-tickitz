@@ -3,102 +3,102 @@ import React from "react";
 function PaymentInfo() {
   return (
     <>
-      <section className="bg-[#A0A3BD33] p-20">
-        <div className="flex flex-col mt-30 px-20 justify-center items-center bg-[#A0A3BD33]">
-          <form className="w-7/10 p-10 bg-white">
-            <p className="font-bold text-2xl font-mulish">Payment Info</p>
-            <div className="flex flex-col pb-2 mt-5">
-              <label className="font-mulish tracking-wide text-[#8692A6] text-sm mb-2">
+      <section className="bg-[#DEDEDE] p-20">
+        <div className="mt-30 flex flex-col items-center justify-center bg-[#DEDEDE] px-10 sm:px-0 md:px-20">
+          <form className="w-full bg-white p-10 md:w-8/10 lg:w-7/10">
+            <p className="font-mulish text-2xl font-bold">Payment Info</p>
+            <div className="mt-5 flex flex-col pb-2">
+              <label className="font-mulish mb-2 text-sm tracking-wide text-[#8692A6]">
                 DATE & TIME
               </label>
               <input
                 type="text"
-                className="border-b-2 outline-0 border-line text-black font-light text-[16px] pb-1 mb-2"
+                className="border-line mb-2 border-b-2 pb-1 text-[16px] font-light text-black outline-0"
                 value={"Tuesday, 07 July 2022 at 02:00pm"}
               />
             </div>
             <div className="flex flex-col">
-              <label className="font-mulish tracking-wide text-[#8692A6] text-sm mb-2">
+              <label className="font-mulish mb-2 text-sm tracking-wide text-[#8692A6]">
                 MOVIE TITLE
               </label>
               <input
                 type="text"
-                className="border-b-2 outline-0 border-line text-black font-light text-[16px] pb-1 mb-2"
+                className="border-line mb-2 border-b-2 pb-1 text-[16px] font-light text-black outline-0"
                 value={"Tuesday, 07 July 2022 at 02:00pm"}
               />
             </div>
             <div className="flex flex-col">
-              <label className="font-mulish tracking-wide text-[#8692A6] text-sm mb-2">
+              <label className="font-mulish mb-2 text-sm tracking-wide text-[#8692A6]">
                 CINEMA NAME
               </label>
               <input
                 type="text"
-                className="border-b-2 outline-0 border-line text-black font-light text-[16px] pb-1 mb-2"
+                className="border-line mb-2 border-b-2 pb-1 text-[16px] font-light text-black outline-0"
                 value={"Tuesday, 07 July 2022 at 02:00pm"}
               />
             </div>
             <div className="flex flex-col">
-              <label className="font-mulish tracking-wide text-[#8692A6] text-sm mb-2">
+              <label className="font-mulish mb-2 text-sm tracking-wide text-[#8692A6]">
                 NUMBER OF TICKETS
               </label>
               <input
                 type="text"
-                className="border-b-2 outline-0 border-line text-black font-light text-[16px] pb-1 mb-2"
+                className="border-line mb-2 border-b-2 pb-1 text-[16px] font-light text-black outline-0"
                 value={"Tuesday, 07 July 2022 at 02:00pm"}
               />
             </div>
             <div className="flex flex-col">
-              <label className="font-mulish tracking-wide text-[#8692A6] text-sm mb-2">
+              <label className="font-mulish mb-2 text-sm tracking-wide text-[#8692A6]">
                 TOTAL PAYMENT
               </label>
               <input
                 type="text"
-                className="border-b-2 outline-0 border-line text-black font-light text-[16px] pb-1 mb-5"
+                className="border-line mb-5 border-b-2 pb-1 text-[16px] font-light text-black outline-0"
                 value={"Tuesday, 07 July 2022 at 02:00pm"}
               />
             </div>
 
-            <p className="font-bold text-2xl font-mulish">
+            <p className="font-mulish text-2xl font-bold">
               Personal Indformation
             </p>
 
             <div className="flex flex-col">
-              <label className="font-mulish tracking-wide text-[#8692A6] text-sm mb-2 mt-2">
+              <label className="font-mulish mt-2 mb-2 text-sm tracking-wide text-[#8692A6]">
                 Full Name
               </label>
               <input
                 type="text"
-                className="border-2 outline-0 border-line text-black font-light text-[16px] py-2 pl-10 rounded-sm"
+                className="border-line rounded-sm border-2 py-2 pl-10 text-[16px] font-light text-black outline-0"
                 value={"Tuesday, 07 July 2022 at 02:00pm"}
               />
             </div>
 
             <div className="flex flex-col">
-              <label className="font-mulish tracking-wide text-[#8692A6] text-sm mb-2 mt-2">
+              <label className="font-mulish mt-2 mb-2 text-sm tracking-wide text-[#8692A6]">
                 Email
               </label>
               <input
                 type="text"
-                className="border-2 outline-0 border-line text-black font-light text-[16px] py-2 pl-10 rounded-sm mb-2"
+                className="border-line mb-2 rounded-sm border-2 py-2 pl-10 text-[16px] font-light text-black outline-0"
                 value={"Tuesday, 07 July 2022 at 02:00pm"}
               />
             </div>
 
             <div className="flex flex-col">
-              <label className="font-mulish tracking-wide text-[#8692A6] text-sm mb-2 mt-2">
+              <label className="font-mulish mt-2 mb-2 text-sm tracking-wide text-[#8692A6]">
                 Phone Number
               </label>
               <input
                 type="text"
-                className="border-2 outline-0 border-line text-black font-light text-[16px] py-2 pl-10 rounded-sm mb-2"
+                className="border-line mb-2 rounded-sm border-2 py-2 pl-10 text-[16px] font-light text-black outline-0"
                 value={"Tuesday, 07 July 2022 at 02:00pm"}
               />
             </div>
-            <p className="font-bold text-2xl font-mulishc my-5">
+            <p className="font-mulishc my-5 text-2xl font-bold">
               Payment Method
             </p>
             <div className="flex flex-wrap justify-between gap-3">
-              <button className="border-2 border-[#DEDEDE] gap-2 justify-center flex items-center rounded-sm p-2 min-w-[130px]">
+              <button className="flex min-w-[130px] items-center justify-center gap-2 rounded-sm border-2 border-[#DEDEDE] p-2">
                 <svg
                   width="74"
                   height="30"
@@ -135,7 +135,7 @@ function PaymentInfo() {
                   </defs>
                 </svg>
               </button>
-              <button className="border-2 border-[#DEDEDE] justify-center flex items-center rounded-sm p-2 min-w-[130px]">
+              <button className="flex min-w-[130px] items-center justify-center rounded-sm border-2 border-[#DEDEDE] p-2">
                 <svg
                   width="80"
                   height="26"
@@ -167,7 +167,7 @@ function PaymentInfo() {
                   </defs>
                 </svg>
               </button>
-              <button className="border-2 border-[#DEDEDE] justify-center flex items-center rounded-sm p-2 min-w-[130px]">
+              <button className="flex min-w-[130px] items-center justify-center rounded-sm border-2 border-[#DEDEDE] p-2">
                 <svg
                   width="106"
                   height="35"
@@ -278,7 +278,7 @@ function PaymentInfo() {
                   </defs>
                 </svg>
               </button>
-              <button className="border-2 border-[#DEDEDE] justify-center flex items-center rounded-sm p-2 min-w-[130px]">
+              <button className="flex min-w-[130px] items-center justify-center rounded-sm border-2 border-[#DEDEDE] p-2">
                 <svg
                   width="31"
                   height="37"
@@ -311,7 +311,7 @@ function PaymentInfo() {
                   </defs>
                 </svg>
               </button>
-              <button className="border-2 border-[#DEDEDE] justify-center flex items-center rounded-sm p-2 min-w-[130px]">
+              <button className="flex min-w-[130px] items-center justify-center rounded-sm border-2 border-[#DEDEDE] p-2">
                 <svg
                   width="108"
                   height="31"
@@ -347,7 +347,7 @@ function PaymentInfo() {
                   </defs>
                 </svg>
               </button>
-              <button className="border-2 border-[#DEDEDE] justify-center flex items-center rounded-sm p-2 min-w-[130px]">
+              <button className="flex min-w-[130px] items-center justify-center rounded-sm border-2 border-[#DEDEDE] p-2">
                 <svg
                   width="85"
                   height="28"
@@ -404,7 +404,7 @@ function PaymentInfo() {
                   </defs>
                 </svg>
               </button>
-              <button className="border-2 border-[#DEDEDE] justify-center flex items-center rounded-sm p-2 min-w-[130px]">
+              <button className="flex min-w-[130px] items-center justify-center rounded-sm border-2 border-[#DEDEDE] p-2">
                 <svg
                   width="45"
                   height="38"
@@ -427,7 +427,7 @@ function PaymentInfo() {
                   </defs>
                 </svg>
               </button>
-              <button className="border-2 border-[#DEDEDE] justify-center flex items-center rounded-sm p-2 min-w-[130px]">
+              <button className="flex min-w-[130px] items-center justify-center rounded-sm border-2 border-[#DEDEDE] p-2">
                 <svg
                   width="45"
                   height="38"
@@ -451,7 +451,7 @@ function PaymentInfo() {
                 </svg>
               </button>
 
-              <button className="w-full font-mulish bg-primary p-2 rounded-sm text-white mt-5">
+              <button className="font-mulish bg-primary mt-5 w-full rounded-sm p-2 text-white">
                 Pay your order
               </button>
             </div>

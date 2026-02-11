@@ -1,24 +1,27 @@
-import React, { useEffect, useState } from "react";
+//import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { format } from "date-fns";
-import { useDispatch, useSelector } from "react-redux";
-import { movieActions } from "../redux/slices/movies.slice";
+//import { format } from "date-fns";
+import { useSelector } from "react-redux";
+// import { movieActions } from "../redux/slices/movies.slice";
 import Loader from "./Loader";
 import ImgDefault from "../assets/logo.png";
 import Hero4 from "../assets/img4.png";
 
 function Movies() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
   const moviesState = useSelector((state) => state.movies);
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const search = urlParams.get("search");
-  const page = urlParams.get("page");
-  const [param, _] = useState({
-    search: search,
-    page: page,
-  });
+  // const queryString = window.location.search;
+  // const urlParams = new URLSearchParams(queryString);
+  // const search = urlParams.get("search");
+  // const page = urlParams.get("page");
+  //const genre = urlParams.get("genre");
+
+  // const [param, _] = useState({
+  //   search: search,
+  //   page: page,
+  //   genre: genre,
+  // });
 
   //console.log(search, page, "search param");
 
@@ -27,10 +30,14 @@ function Movies() {
   //const aaa = moviesState.search;
   //console.log(aaa, "aaaa");
 
-  useEffect(() => {
-    dispatch(movieActions.getMoviesByNameThunk(param));
-    dispatch(movieActions.getGenreMoviesThunk());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(movieActions.getMoviesBySearchThunk(param));
+  //   dispatch(movieActions.getGenreMoviesThunk());
+  // }, []);
+
+  // useEffect(() => {
+  //   dispatch(movieActions.getMoviesByGenreThunk(param.genre));
+  // }, []);
 
   const handleMovieClick = (movieId) => {
     navigate(`${movieId}`);
@@ -42,13 +49,13 @@ function Movies() {
 
   return (
     <>
-      {moviesState.fetchStatus.genre.isLoading == true ? (
+      {moviesState.fetchStatus.search.isLoading == true ? (
         <div className="flex min-h-screen w-full flex-col items-center justify-center text-center">
           <Loader />
         </div>
       ) : (
-        moviesState.search.results &&
-        moviesState.search.results.map((movie, idx) => {
+        moviesState.search.data &&
+        moviesState.search.data[0].map((movie, idx) => {
           return (
             <div
               key={idx}
@@ -57,9 +64,11 @@ function Movies() {
               <div className="group relative">
                 <img
                   src={
-                    movie.poster_path == null
+                    movie.poster_url == null
                       ? { Hero4 }
-                      : `${import.meta.env.VITE_BACKDROP_PATH}/${movie.poster_path}`
+                      : `${import.meta.env.VITE_MOVIE_GO_BASE}${import.meta.env.VITE_BACKDROP_PATH_IMG}${
+                          movie.poster_url
+                        }`
                   }
                   alt={movie.title}
                   className="min-h-80 min-w-full rounded-xl object-cover sm:h-96 md:h-100 lg:h-110"
@@ -91,9 +100,10 @@ function Movies() {
               <p className="font-mulish text-primary text-lg font-bold">
                 {movie.release_date == ""
                   ? "No date inserted"
-                  : format(movie.release_date, "MMMM yyyy")}
+                  : // : format(movie.release_date, "MMMM yyyy")}
+                    movie.release_date}
               </p>
-              <div className="my-1 flex flex-wrap gap-1">
+              {/* <div className="my-1 flex flex-wrap gap-1">
                 {moviesState.fetchStatus.genre.isLoading == true ? (
                   <Loader />
                 ) : (
@@ -112,11 +122,12 @@ function Movies() {
                     }
                   })
                 )}
-              </div>
+              </div> */}
             </div>
           );
         })
       )}
+      {moviesState}
     </>
   );
 }

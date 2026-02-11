@@ -2,6 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import fetchUrl from "../../utils/fetch";
 //import getMoviesNowPlayingData from "../../api/getMoviesNowPlayingData";
 
+const baseURL = import.meta.env.VITE_MOVIE_GO_BASE;
+
 const getNowPlayingMoviesThunk = createAsyncThunk(
   "movies/getNowPlayingMovies",
   async (payload, { rejectWithValue }) => {
@@ -11,10 +13,7 @@ const getNowPlayingMoviesThunk = createAsyncThunk(
           res();
         }, 2000),
       );
-      const url = `${import.meta.env.VITE_MOVIE_API}?api_key=${
-        import.meta.env.VITE_MOVIE_KEY
-      }`;
-      //const data = await getMoviesNowPlayingData(url);
+      const url = `${import.meta.env.VITE_MOVIE_GO_BASE}${import.meta.env.VITE_MOVIE_GO_NOW_SHOWING}`;
       const data = await fetchUrl(url);
       return data;
     } catch (error) {
@@ -32,9 +31,7 @@ const getUpcomingMoviesThunk = createAsyncThunk(
           res();
         }, 2000),
       );
-      const url = `${import.meta.env.VITE_MOVIE_UPCOMING}?api_key=${
-        import.meta.env.VITE_MOVIE_KEY
-      }`;
+      const url = `${baseURL}${import.meta.env.VITE_MOVIE_GO_UPCOMING}`;
       const data = await fetchUrl(url);
       return data;
     } catch (error) {
@@ -47,9 +44,7 @@ const getDetailMoviesThunk = createAsyncThunk(
   "movies/getDetailMovies",
   async (id, { rejectWithValue }) => {
     try {
-      const url = `${import.meta.env.VITE_MOVIE_DETAIL}${id}?api_key=${
-        import.meta.env.VITE_MOVIE_KEY
-      }`;
+      const url = `${baseURL}${import.meta.env.VITE_MOVIE_GO_DETAIL}${id}`;
       const data = await fetchUrl(url);
       return data;
     } catch (error) {
@@ -60,16 +55,14 @@ const getDetailMoviesThunk = createAsyncThunk(
 
 const getGenreMoviesThunk = createAsyncThunk(
   "movies/getGenre",
-  async (payload, { rejectWithValue }) => {
+  async (id, { rejectWithValue }) => {
     try {
       await new Promise((res) =>
         setTimeout(() => {
           res();
-        }, 5000),
+        }, 2000),
       );
-      const url = `${import.meta.env.VITE_MOVIE_GENRE}?api_key=${
-        import.meta.env.VITE_MOVIE_KEY
-      }`;
+      const url = `${baseURL}${import.meta.env.VITE_MOVIE_GO_GENRE}${id}`;
       const data = await fetchUrl(url);
       return data;
     } catch (error) {
@@ -78,25 +71,13 @@ const getGenreMoviesThunk = createAsyncThunk(
   },
 );
 
-const getMoviesByNameThunk = createAsyncThunk(
-  "movies/getMoviesByName",
+const getMoviesBySearchThunk = createAsyncThunk(
+  "movies/searchMovies",
   async (payload, { rejectWithValue }) => {
     try {
-      // await new Promise((res) =>
-      //   setTimeout(() => {
-      //     res();
-      //   }, 2000),
-      // );
-      const url = `${import.meta.env.VITE_MOVIE_SEARCH}api_key=${
-        import.meta.env.VITE_MOVIE_KEY
-      }&page=${payload.page}&query=${payload.search}`;
-
-      // console.log(payload.page, payload.search, "data2ku");
-      console.log(payload.search, "aaabintang");
-
-      //const data = await getMoviesNowPlayingData(url);
+      const url = `${baseURL}${import.meta.env.VITE_MOVIE_GO_SEARCH}page=${payload.page}`;
       const data = await fetchUrl(url);
-      console.log(data);
+      console.log(data, "search");
       return data;
     } catch (error) {
       return rejectWithValue(error);
@@ -143,6 +124,7 @@ const initialState = {
     detail: null,
     genre: null,
     search: null,
+    searchByGenre: null,
   },
 };
 
@@ -161,7 +143,7 @@ const moviesSlice = createSlice({
         fulfilled: (prevState, { payload }) => {
           prevState.fetchStatus.nowPlaying.isLoading = false;
           prevState.fetchStatus.nowPlaying.isSuccess = true;
-          prevState.nowPlaying = payload.results;
+          prevState.nowPlaying = payload.data;
         },
         rejected: (prevState, { payload }) => {
           prevState.fetchStatus.nowPlaying.isLoading = false;
@@ -178,7 +160,7 @@ const moviesSlice = createSlice({
         fulfilled: (prevState, { payload }) => {
           prevState.fetchStatus.upcoming.isLoading = false;
           prevState.fetchStatus.upcoming.isSuccess = true;
-          prevState.upcoming = payload;
+          prevState.upcoming = payload.data;
         },
         rejected: (prevState, { payload }) => {
           prevState.fetchStatus.upcoming.isLoading = false;
@@ -195,7 +177,7 @@ const moviesSlice = createSlice({
         fulfilled: (prevState, { payload }) => {
           prevState.fetchStatus.detail.isLoading = false;
           prevState.fetchStatus.detail.isSuccess = true;
-          prevState.detail = payload;
+          prevState.detail = payload.data[0];
         },
         rejected: (prevState, { payload }) => {
           prevState.fetchStatus.detail.isLoading = false;
@@ -212,7 +194,7 @@ const moviesSlice = createSlice({
         fulfilled: (prevState, { payload }) => {
           prevState.fetchStatus.genre.isLoading = false;
           prevState.fetchStatus.genre.isSuccess = true;
-          prevState.genre = payload;
+          prevState.genre = payload.data;
         },
         rejected: (prevState, { payload }) => {
           prevState.fetchStatus.genre.isLoading = false;
@@ -220,7 +202,7 @@ const moviesSlice = createSlice({
           prevState.errors.genre = payload;
         },
       })
-      .addAsyncThunk(getMoviesByNameThunk, {
+      .addAsyncThunk(getMoviesBySearchThunk, {
         pending: (prevState) => {
           prevState.fetchStatus.search.isLoading = true;
           prevState.fetchStatus.search.isSuccess = false;
@@ -246,6 +228,6 @@ export const movieActions = {
   getUpcomingMoviesThunk,
   getDetailMoviesThunk,
   getGenreMoviesThunk,
-  getMoviesByNameThunk,
+  getMoviesBySearchThunk,
 };
 export default moviesSlice.reducer;

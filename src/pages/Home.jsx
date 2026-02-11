@@ -9,7 +9,7 @@ import Cs3 from "../assets/bubble.png";
 import Header from "../components/Header";
 import Subscribe from "../components/Subscribe";
 import { format } from "date-fns";
-import { data, Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { movieActions } from "../redux/slices/movies.slice";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
@@ -25,7 +25,7 @@ function Home() {
 
   useEffect(() => {
     dispatch(movieActions.getNowPlayingMoviesThunk());
-    dispatch(movieActions.getGenreMoviesThunk());
+    //dispatch(movieActions.getGenreMoviesThunk());
   }, []);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ function Home() {
     if (nextFilm < maxMovie) {
       setNextFilm(nextFilm + 1);
       setPreviousFilm(previousFilm + 1);
-      console.log(previousFilm, nextFilm, "klik next");
+      //console.log(previousFilm, nextFilm, "klik next");
     }
   }
 
@@ -44,16 +44,13 @@ function Home() {
     if (previousFilm > 0) {
       setNextFilm(nextFilm - 1);
       setPreviousFilm(previousFilm - 1);
-      console.log(nextFilm, previousFilm, "klik previous");
+      //console.log(nextFilm, previousFilm, "klik previous");
     }
   }
 
   const handleMovieClick = (movieId) => {
     navigate(`/movies/${movieId}`);
   };
-
-  const dataku = moviesState.upcoming;
-  console.log(dataku, "aapaapa");
 
   return (
     <div>
@@ -162,11 +159,11 @@ function Home() {
               <p className="font-mulish text-center text-[32px]">
                 Exciting Movie That Should Be Watched Today
               </p>
-              <div className="mt-5 flex min-h-[405px] min-w-full snap-x snap-mandatory items-center justify-center gap-5 overflow-x-scroll md:snap-none [&::-webkit-scrollbar]:hidden">
+              <div className="mt-5 flex min-h-101.25 min-w-full snap-x snap-mandatory items-center justify-center gap-5 overflow-x-scroll md:snap-none [&::-webkit-scrollbar]:hidden">
                 {moviesState.fetchStatus.nowPlaying.isLoading == true ? (
                   <Loader />
                 ) : (
-                  <div className="mt-5 flex min-h-[405px] gap-2 overflow-x-scroll md:snap-none [&::-webkit-scrollbar]:hidden">
+                  <div className="mt-5 flex min-h-101.25 gap-2 overflow-x-scroll md:snap-none [&::-webkit-scrollbar]:hidden">
                     {moviesState.nowPlaying.slice(0, 4).map((movie, idx) => {
                       return (
                         <div
@@ -175,8 +172,11 @@ function Home() {
                         >
                           <div className="group relative">
                             <img
-                              src={`${import.meta.env.VITE_BACKDROP_PATH}/${
-                                movie.poster_path
+                              // src={`${import.meta.env.VITE_BACKDROP_PATH}/${
+                              //   movie.poster_path
+                              // }`}
+                              src={`${import.meta.env.VITE_MOVIE_GO_BASE}${import.meta.env.VITE_BACKDROP_PATH_IMG}${
+                                movie.poster_url
                               }`}
                               alt={"gambar"}
                               className="min-h-80 min-w-full rounded-xl object-cover sm:h-96 md:h-100 lg:h-110"
@@ -186,12 +186,18 @@ function Home() {
                                 className="rounded-lg border-2 border-solid border-white px-12 py-2 text-sm font-semibold text-white transition hover:border-[#1a45b8] hover:bg-[#1a45b8] sm:px-16 sm:py-3 sm:text-base md:px-20"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  handleMovieClick(movie.id);
+                                  handleMovieClick(movie.Id);
                                 }}
                               >
                                 Details
                               </button>
-                              <button className="rounded-lg bg-[#1a45b8] px-10 py-2 text-sm font-semibold text-white transition hover:bg-gray-100 hover:text-black sm:px-14 sm:py-3 sm:text-base md:px-17">
+                              <button
+                                className="rounded-lg bg-[#1a45b8] px-10 py-2 text-sm font-semibold text-white transition hover:bg-gray-100 hover:text-black sm:px-14 sm:py-3 sm:text-base md:px-17"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleMovieClick(movie.Id);
+                                }}
+                              >
                                 Buy Ticket
                               </button>
                             </div>
@@ -327,8 +333,8 @@ function Home() {
               </div>
             </div>
             <div className="md:w-min-1/4 mt-5 hidden sm:hidden md:flex md:min-h-[405px] md:gap-4 md:overflow-x-clip md:px-20 [&::-webkit-scrollbar]:hidden">
-              {moviesState.upcoming.results != null &&
-                moviesState.upcoming.results
+              {moviesState.upcoming != null &&
+                moviesState.upcoming
                   .slice(previousFilm, nextFilm)
                   .map((movie, idx) => {
                     return (
@@ -336,8 +342,8 @@ function Home() {
                         <div className="min-h-[405px]">
                           <img
                             className="h-full rounded-md select-none"
-                            src={`${import.meta.env.VITE_BACKDROP_PATH}/${
-                              movie.poster_path
+                            src={`${import.meta.env.VITE_MOVIE_GO_BASE}${import.meta.env.VITE_BACKDROP_PATH_IMG}${
+                              movie.poster_url
                             }`}
                             alt="shield"
                           />
@@ -348,7 +354,7 @@ function Home() {
                         <p className="font-mulish text-primary text-lg font-bold">
                           {format(movie.release_date, "MMMM yyyy")}
                         </p>
-                        <div className="my-1 flex flex-wrap gap-1">
+                        {/* <div className="my-1 flex flex-wrap gap-1">
                           {movie.genre_ids.map((id, idx) => {
                             const genres = moviesState.genre.genres;
                             const newGenre =
@@ -365,27 +371,27 @@ function Home() {
                               );
                             }
                           })}
-                        </div>
+                        </div> */}
                       </div>
                     );
                   })}
             </div>
-            <div className="mt-5 flex min-h-[405px] min-w-3/5 snap-center gap-4 overflow-x-scroll px-20 md:hidden [&::-webkit-scrollbar]:hidden">
+            <div className="mt-5 flex min-h-101.25 min-w-3/5 snap-center gap-4 overflow-x-scroll px-20 md:hidden [&::-webkit-scrollbar]:hidden">
               {/* <div className="mt-5 flex min-h-[405px] gap-2 overflow-x-scroll md:snap-none [&::-webkit-scrollbar]:hidden"> */}
-              {moviesState.upcoming.results != null &&
-                moviesState.upcoming.results.map((movie, idx) => {
+              {moviesState.upcoming != null &&
+                moviesState.upcoming.map((movie, idx) => {
                   return (
-                    <div key={idx} className={"flex min-w-[264px] flex-col"}>
-                      <div className="min-h-[405px]">
+                    <div key={idx} className={"flex min-w-66 flex-col"}>
+                      <div className="min-h-101.25">
                         <img
                           className="h-full rounded-md select-none"
-                          src={`${import.meta.env.VITE_BACKDROP_PATH}/${
-                            movie.poster_path
+                          src={`${import.meta.env.VITE_MOVIE_GO_BASE}${import.meta.env.VITE_BACKDROP_PATH_IMG}${
+                            movie.poster_url
                           }`}
                           alt="shield"
                         />
                       </div>
-                      <p className="font-mulish mt-3 text-2xl font-bold">
+                      <p className="font-mulish mt-3 line-clamp-3 text-2xl font-bold">
                         {movie.title}
                       </p>
                       <p className="font-mulish text-primary text-lg font-bold">

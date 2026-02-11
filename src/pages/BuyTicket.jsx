@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { movieActions } from "../redux/slices/movies.slice";
 import { format } from "date-fns";
+import { useNavigate } from "react-router";
 
 function BuyTicket() {
   const dispatch = useDispatch();
@@ -18,8 +19,10 @@ function BuyTicket() {
   const splitTime = time.split(":");
   const location = urlParams.get("location");
   const moviesState = useSelector((state) => state.movies);
-  const genreMovie = moviesState.detail.genres;
+  const genreMovie = moviesState.genre;
   const allGenre = moviesState.genre.genres;
+
+  const navigate = useNavigate();
 
   const [order, setOrder] = useState({
     idOrder: "",
@@ -38,7 +41,7 @@ function BuyTicket() {
 
   useEffect(() => {
     dispatch(movieActions.getDetailMoviesThunk(idMovies));
-    dispatch(movieActions.getGenreMoviesThunk());
+    dispatch(movieActions.getGenreMoviesThunk(idMovies));
   }, [idMovies]);
 
   const onChangeHandler = (e) => {
@@ -68,7 +71,9 @@ function BuyTicket() {
     });
   };
 
-  const orderHandler = () => {};
+  const orderHandler = () => {
+    navigate(`/movies/payment/${idMovies}`);
+  };
 
   // useEffect(() => {
   //   let total = seat.length * 35000;
@@ -84,8 +89,8 @@ function BuyTicket() {
           <div className="flex h-1/5 flex-row justify-between gap-5 rounded-sm border border-solid border-[#DEDEDE] px-10 py-5">
             <div className="h-full overflow-y-hidden rounded-sm">
               <img
-                src={`${import.meta.env.VITE_BACKDROP_PATH}/${
-                  moviesState.detail.poster_path
+                src={`${import.meta.env.VITE_MOVIE_GO_BASE}${import.meta.env.VITE_BACKDROP_PATH_IMG}${
+                  moviesState.detail.poster_url
                 }`}
               />
             </div>
@@ -94,7 +99,7 @@ function BuyTicket() {
                 <p className="text-2xl">{moviesState.detail.title}</p>
               </div>
               <div className="my-1 flex flex-wrap items-center justify-start gap-1 overflow-y-scroll">
-                {genreMovie &&
+                {/* {genreMovie &&
                   genreMovie.map((genre, idx) => {
                     const newGenre =
                       allGenre && allGenre.find((x) => x.id == genre.id);
@@ -108,6 +113,17 @@ function BuyTicket() {
                         </p>
                       );
                     }
+                  })} */}
+                {genreMovie &&
+                  genreMovie.map((genre, idx) => {
+                    return (
+                      <p
+                        key={idx}
+                        className="bg-smoke text-secondary rounded-2xl px-2 text-[16px] select-none"
+                      >
+                        {genre.name}
+                      </p>
+                    );
                   })}
               </div>
               <div className="flex items-center justify-between">

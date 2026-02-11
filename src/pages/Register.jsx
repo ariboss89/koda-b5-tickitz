@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Line from "../assets/line.png";
 import fb from "../assets/fb.png";
@@ -10,14 +10,22 @@ import eyeSlash from "../assets/eye-slash.png";
 import { Link, useNavigate } from "react-router";
 import useInput from "../hooks/useInput";
 import { useDispatch, useSelector } from "react-redux";
-import { addUsers } from "../redux/slices/user.slice";
+import { userActions } from "../redux/slices/user.slice";
+import TickitzModal from "../components/TickitzModal";
 
 function Register() {
   const navigate = useNavigate();
   const [isChecked, setIsChecked] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.users);
+  const usersState = useSelector((state) => state.users);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [title, setTitle] = useState("");
+  const [type, setType] = useState("");
+
+  const handleCloseModal = () => setIsModalOpen(false);
 
   function visible() {
     setShowPassword(!showPassword);
@@ -33,6 +41,25 @@ function Register() {
     minLength: 8,
   });
 
+  useEffect(() => {
+    (() => {
+      console.log(usersState.fetchStatus.registerUser.errorMessage, "err");
+      if (usersState.fetchStatus.registerUser.errorMessage) {
+        setType("error");
+        setTitle("Error Message");
+        setMessage(usersState.fetchStatus.registerUser.errorMessage);
+        setIsModalOpen(true);
+        //navigate(`/auth/register`);
+      } else if (usersState.email != null) {
+        //navigate(`/auth/login`);
+        setType("validation");
+        setTitle("Info Message");
+        setMessage(usersState.fetchStatus.registerUser.errorMessage);
+        setIsModalOpen(true);
+      }
+    })();
+  }, [usersState.fetchStatus.registerUser.errorMessage]);
+
   const submitHandler = (event) => {
     event.preventDefault();
     if (
@@ -40,19 +67,18 @@ function Register() {
       passwordInput.value != "" &&
       isChecked != false
     ) {
-      const checkUser = users.accounts.find((x) => x.email == emailInput.value);
-      if (checkUser == null) {
-        const newUser = {};
-        Object.assign(newUser, {
-          email: emailInput.value,
-          password: passwordInput.value,
-        });
-        dispatch(addUsers(newUser));
-        navigate(`/auth/login`);
-      } else {
-        setIsChecked(false);
-        console.log("user telah ditambahkan !!");
-      }
+      const newUser = {};
+      Object.assign(newUser, {
+        email: emailInput.value,
+        password: passwordInput.value,
+      });
+      dispatch(userActions.registerUserThunk(newUser));
+    } else {
+      setType("error");
+      setTitle("Error Message");
+      setMessage("Please input email, password and check the checkbox");
+      setIsModalOpen(true);
+      setIsChecked(false);
       emailInput.reset();
       passwordInput.reset();
     }
@@ -204,6 +230,15 @@ function Register() {
                     <input className="pl-5" type="button" value="Google" />
                   </div>
                 </div>
+
+                <TickitzModal
+                  isOpen={true}
+                  show={isModalOpen}
+                  onClose={handleCloseModal}
+                  message={message}
+                  title={title}
+                  type={type}
+                />
               </form>
             </div>
           </div>

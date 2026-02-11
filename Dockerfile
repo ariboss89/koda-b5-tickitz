@@ -11,7 +11,14 @@ COPY . .
 RUN npm run build
  
 # Production Stage
-FROM nginx:mainline-alpine3.23 as production
-COPY --from=build /app/dist /usr/share/nginx/html
+FROM nginx:mainline-alpine3.23
+
+RUN rm -rf /usr/share/nginx/html/*
+
+COPY --from=build /app/dist /usr/share/ngix/html
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 EXPOSE 80
+
 CMD ["nginx", "-g", "daemon off;"]

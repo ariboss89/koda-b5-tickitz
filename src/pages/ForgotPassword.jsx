@@ -8,7 +8,7 @@ import logo from "../assets/logo.png";
 import { useNavigate } from "react-router";
 import useInput from "../hooks/useInput";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../redux/slices/user.slice";
+import { userActions } from "../redux/slices/user.slice";
 
 function ForgotPassword() {
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ function ForgotPassword() {
         checkUser.email == emailInput.value &&
         checkUser.password == passwordInput.value
       ) {
-        dispatch(loginUser(newUser));
+        dispatch(userActions(newUser));
         navigate("/");
       } else {
         console.log("Password dan username salah");

@@ -13,11 +13,13 @@ import {
 
 import moviesReducer from "./slices/movies.slice";
 import usersReducer from "./slices/user.slice";
+import genresReducer from "./slices/genres.slice";
 
 const persistConfig = { key: "ari-redux", storage, whitelist: ["users"] };
 const persistedReducers = persistCombineReducers(persistConfig, {
   movies: moviesReducer,
   users: usersReducer,
+  genres: genresReducer,
 });
 
 const store = configureStore({

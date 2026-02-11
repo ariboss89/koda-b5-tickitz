@@ -6,6 +6,7 @@ import Movies from "../components/Movies";
 import MoviesFilter from "../components/MoviesFilter";
 import { useSearchParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
+import { genresActions } from "../redux/slices/genres.slice";
 import { movieActions } from "../redux/slices/movies.slice";
 
 function ViewAll() {
@@ -15,22 +16,28 @@ function ViewAll() {
   const [previousFilm, setPreviousFilm] = useState(0);
   const [nextFilm, setNextFilm] = useState(12);
   const [_, setSearchParam] = useSearchParams([]);
-  const [query, setQuery] = useState({
-    genre: "",
-  });
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState();
 
-  const [param, setParam] = useState({
-    search: "",
-    page: 1,
+  const [genre, setGenre] = useState({
+    genres: "",
   });
 
+  const [param, setParam] = useState({
+    title: "",
+    page: 1,
+    genre: "",
+  });
+
+  const [dataParam, setDataParam] = useState("");
+  const [activeButton, setActiveButton] = useState(null);
+  const [genreFilter, setGenreFilter] = useState([]);
+  const genresState = useSelector((state) => state.genres);
   const moviesState = useSelector((state) => state.movies);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(movieActions.getGenreMoviesThunk());
+    dispatch(genresActions.getAllGenresThunk());
   }, []);
 
   async function GetFilm(start, end) {
@@ -56,7 +63,7 @@ function ViewAll() {
     }
   }
 
-  const genres = moviesState.genre.genres;
+  const genres = genresState.genres;
 
   useEffect(() => {
     GetFilm(previousFilm, nextFilm);
@@ -77,40 +84,103 @@ function ViewAll() {
   }
 
   const onKeyDownHandler = (e) => {
+    console.log(e.target.name);
+    //setSearch(e.target.value);
     setParam((param) => {
-      return { ...param, [e.target.name]: e.target.value };
+      return { ...param, title: e.target.value };
     });
-    setSearchParam(new URLSearchParams(param));
+    // setSearchParam(new URLSearchParams(param));
   };
 
   useEffect(() => {
-    dispatch(movieActions.getMoviesByNameThunk(param));
-  }, [param]);
+    dispatch(movieActions.getMoviesBySearchThunk(param));
+  }, []);
 
-  const movF = moviesState.search.results;
-  console.log(movF, "hasil filter movienya");
+  // useEffect(() => {
+  //   (() => {
+  //     setDataParam(genreFilter.join("&"));
+  //     setParam((param) => {
+  //       return { ...param, genre: dataParam };
+  //     });
+  //     setSearchParam(new URLSearchParams(param));
+  //   })();
+  // }, [genreFilter, dataParam, param]);
 
-  const onCheckedHandler = (e) => {
-    if (e.target.checked === true) {
-      // seat.push(e.target.value);
-      // console.log(seat, "kursinya");
-      console.log(query.genre, "aaa");
-      setQuery((query) => {
-        return { ...query, [e.target.name]: e.target.value };
+  const handleCheckboxChange = (event) => {
+    const { value, checked } = event.target;
+    if (checked) {
+      setGenreFilter((prevItems) => [...prevItems, "genre=" + value]);
+    } else {
+      setGenreFilter((prevItems) => {
+        prevItems.filter((item) => item !== value);
       });
     }
-    // else {
-    //   for (let a = 0; a < seat.length; a++) {
-    //     if (seat[a] == e.target.value) {
-    //       seat.splice(a);
-    //     }
-    //   }
-    // }
-    // let total = seat.length * 35000;
-    // setOrder((order) => {
-    //   return { ...order, seat, total };
-    // });
+    console.log(genreFilter, "filternya");
+    setSearchParam((state) => {
+      state.delete(genreFilter);
+      return state;
+    });
   };
+
+  // const onCheckedHandler = (e) => {
+  //   if (e.target.checked === true) {
+  //     // seat.push(e.target.value);
+  //     // console.log(seat, "kursinya");
+  //     console.log(query.genre, "aaa");
+  //     setQuery((query) => {
+  //       return { ...query, [e.target.name]: e.target.value };
+  //     });
+  //   }
+  // else {
+  //   for (let a = 0; a < seat.length; a++) {
+  //     if (seat[a] == e.target.value) {
+  //       seat.splice(a);
+  //     }
+  //   }
+  // }
+  // let total = seat.length * 35000;
+  // setOrder((order) => {
+  //   return { ...order, seat, total };
+  // });
+  //};
+
+  // const onCheckedHandler = (e) => {
+  //   if (e.target.checked === true) {
+  //     genreFilter.push(e.target.name);
+  //   } else {
+  //     for (let a = 0; a < genreFilter.length; a++) {
+  //       if (genreFilter[a] == e.target.name) {
+  //         genreFilter.indexOf(a);
+  //         if (a > -1) {
+  //           genreFilter.splice(a, 1);
+  //         }
+  //       }
+  //     }
+  //   }
+
+  //   let arrGenre = [];
+  //   let str = "";
+  //   setGenre(() => {
+  //     for (let a = 0; a < genreFilter.length; a++) {
+  //       if (!arrGenre.includes(genreFilter[a])) {
+  //         arrGenre.push(genreFilter[a]);
+  //         // g.genres += arrGenre[a] + ",";
+  //         str += arrGenre[a] + ",";
+  //         //
+  //       }
+  //     }
+  //     //setSearchParam(new URLSearchParams(genre.genres));
+  //   });
+
+  //   //console.log(genre.genres, "semua genre");
+
+  //   //console.log(param.genre, "parameter");
+
+  //   // setSearchParam(new URLSearchParams(genre));
+
+  //   //console.log(genreFilter, "aaaa");
+  //   //console.log(genreFilter.includes(28), "aaaa");
+  // };
 
   return (
     <>
@@ -118,13 +188,13 @@ function ViewAll() {
         <Header />
         <main>
           <section>
-            <div className="relative h-[430px] w-screen overflow-y-hidden bg-[url(/src/assets/bg.png)] bg-cover bg-center">
+            <div className="relative h-107.5 w-screen overflow-y-hidden bg-[url(/src/assets/bg.png)] bg-cover bg-center">
               <div className="absolute inset-0 bg-black/60"></div>
-              <div className="absolute top-1/3 flex w-[60vw] flex-col px-20">
+              <div className="absolute top-1/3 flex w-full flex-col px-20 md:top-1/3 lg:top-1/3 lg:w-[60vw]">
                 <p className="font-mulish text-lg font-bold text-white">
                   LIST MOVIE OF THE WEEK
                 </p>
-                <p className="font-mulish text-5xl font-semibold text-white">
+                <p className="font-mulish text-3xl font-semibold text-white md:text-5xl">
                   Experience the Magic of Cinema: Book Your Tickets Today
                 </p>
               </div>
@@ -163,8 +233,7 @@ function ViewAll() {
                       />
                     </svg>
 
-                    {/* {showPassword == "password" ? (
-                     
+                    {/* {showPassword == "password" ? ( 
                     ) : (
                       <img className="w-8 h-8" src={eyeSlash} />
                     )} */}
@@ -188,27 +257,58 @@ function ViewAll() {
                 <div className="mt-5 flex items-center justify-between gap-2 overflow-x-scroll rounded-md">
                   {genres &&
                     genres.map((genre, idx) => {
+                      //const checked = genreFilter.includes(genre.id);
                       return (
-                        <input
-                          key={idx}
-                          id="text"
-                          type="button"
-                          name="genre"
-                          onClick={(e) => {
-                            setFilter(e.target.value);
-                            setSearchParam(
-                              new URLSearchParams({
-                                [e.target.name]: e.target.value,
-                              }),
-                            );
-                          }}
-                          className={
-                            filter != ""
-                              ? "bg-gray h-10 w-full rounded-md border-2 border-[#DEDEDE] px-5 py-2 text-black outline-none"
-                              : "text-secondary hover:bg-primary bg-primary-200 h-10 w-full rounded-md px-5 py-2 outline-none hover:text-white"
-                          }
-                          value={genre.name}
-                        />
+                        <div className="flex items-center justify-center">
+                          <label
+                            className={
+                              //genreFilter.length != 0 &&
+                              // genreFilter.includes(genre.id.toString() == true)
+                              "checked:bg-primary w-full border-[#DEDEDE] bg-white p-2"
+                              //: "w-full border-[#DEDEDE] bg-gray-300 p-2"
+                            }
+                            htmlFor={genre.name}
+                          >
+                            {genre.name}
+                          </label>
+                          <input
+                            key={idx}
+                            id={genre.id}
+                            type="checkbox"
+                            name={genre.name}
+                            // checked={checked}
+                            //onClick={(e) => {
+                            //genreFilter.includes(genre.id.toString());
+                            // checked
+                            //   ? "bg-primary w-full border-[#DEDEDE] p-2"
+                            //   : "w-full border-[#DEDEDE] bg-gray-300 p-2"
+                            // setFilter(e.target.value);
+                            // setSearchParam(
+                            //   new URLSearchParams({
+                            //     [e.target.name]: e.target.value,
+                            //   }),
+                            // );
+                            //}}
+                            onChange={handleCheckboxChange}
+                            // className={
+                            //   filter != ""
+                            //     ? "bg-gray hidden h-10 w-full rounded-md border-2 border-[#DEDEDE] px-5 py-2 text-black outline-none"
+                            //     : "text-secondary hover:bg-primary bg-primary-200 hidden h-10 w-full rounded-md bg-green-300 px-5 py-2 outline-none hover:text-white"
+                            // }
+                            // className={
+                            //   "bg-gray hidden h-10 w-full rounded-md border-2 border-[#DEDEDE] px-5 py-2 text-black outline-none"
+                            // }
+                            className={
+                              "checked:bg-primary hover:bg-primary h-6 w-6 appearance-none rounded-sm bg-gray-200 p-2 checked:hover:bg-blue-400"
+
+                              // genreFilter.length != 0 &&
+                              // genreFilter.includes(genre.id.toString())
+                              //   ? "bg-primary w-full border-[#DEDEDE] p-2"
+                              //   : "w-full border-[#DEDEDE] bg-gray-300 p-2"
+                            }
+                            value={genre.name}
+                          />
+                        </div>
                       );
                     })}
 

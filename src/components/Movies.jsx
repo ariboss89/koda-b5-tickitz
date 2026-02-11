@@ -1,40 +1,37 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router";
-import { format } from "date-fns";
-import { useDispatch, useSelector } from "react-redux";
-import { movieActions } from "../redux/slices/movies.slice";
+//import { format } from "date-fns";
+import { useSelector } from "react-redux";
 import Loader from "./Loader";
 
 function Movies() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const moviesState = useSelector((state) => state.movies);
 
-  useEffect(() => {
-    dispatch(movieActions.getUpcomingMoviesThunk());
-    dispatch(movieActions.getGenreMoviesThunk());
-  }, []);
+  console.log(moviesState.search.data, "aaaa");
 
-  const dataku = moviesState.upcoming;
-  //.log(dataku, "hasil movies no filter");
+  // useEffect(() => {
+  //   dispatch(movieActions.getMoviesBySearchThunk());
+  //   //dispatch(movieActions.getGenreMoviesThunk());
+  // }, []);
 
   const handleMovieClick = (movieId) => {
     navigate(`${movieId}`);
   };
 
-  const handlePurchasingClick = (movieId) => {
-    navigate(`buyticket/${movieId}`);
-  };
+  // const handlePurchasingClick = (movieId) => {
+  //   navigate(`buyticket/${movieId}`);
+  // };
 
   return (
     <>
-      {moviesState.fetchStatus.genre.isLoading == true ? (
+      {moviesState.fetchStatus.search.isLoading == true ? (
         <div className="flex min-h-screen w-full flex-col items-center justify-center text-center">
           <Loader />
         </div>
       ) : (
-        moviesState.upcoming.results &&
-        moviesState.upcoming.results.map((movie, idx) => {
+        moviesState.search.data[0] &&
+        moviesState.search.data[0].map((movie, idx) => {
           return (
             <div
               key={idx}
@@ -42,8 +39,8 @@ function Movies() {
             >
               <div className="group relative">
                 <img
-                  src={`${import.meta.env.VITE_BACKDROP_PATH}/${
-                    movie.poster_path
+                  src={`${import.meta.env.VITE_MOVIE_GO_BASE}${import.meta.env.VITE_BACKDROP_PATH_IMG}${
+                    movie.poster_url
                   }`}
                   alt={"gambar"}
                   className="min-h-80 min-w-full rounded-xl object-cover sm:h-96 md:h-100 lg:h-110"
@@ -61,7 +58,7 @@ function Movies() {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      handlePurchasingClick(movie.id);
+                      handleMovieClick(movie.Id);
                     }}
                     className="rounded-lg bg-[#1a45b8] px-10 py-2 text-sm font-semibold text-white transition hover:bg-gray-100 hover:text-black sm:px-14 sm:py-3 sm:text-base md:px-17"
                   >
@@ -75,16 +72,17 @@ function Movies() {
               <p className="font-mulish text-primary text-lg font-bold">
                 {movie.release_date == ""
                   ? "No date inserted"
-                  : format(movie.release_date, "MMMM yyyy")}
+                  : // : format(movie.release_date, "MMMM yyyy")}
+                    movie.release_date}
               </p>
-              <div className="my-1 flex flex-wrap gap-1">
+              {/* <div className="my-1 flex flex-wrap gap-1">
                 {moviesState.fetchStatus.genre.isLoading == true ? (
                   <Loader />
                 ) : (
                   movie.genre_ids.map((id, idx) => {
                     const genres = moviesState.genre.genres;
                     const newGenre = genres.find((x) => x.id == id);
-                    if (newGenre.id == id) {
+                    if (newGenre && newGenre.id == id) {
                       return (
                         <p
                           key={idx}
@@ -96,7 +94,7 @@ function Movies() {
                     }
                   })
                 )}
-              </div>
+              </div> */}
             </div>
           );
         })

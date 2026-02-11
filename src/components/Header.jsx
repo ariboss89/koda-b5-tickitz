@@ -1,20 +1,13 @@
 import { Link, useNavigate } from "react-router";
 import LogoNav from "../assets/logo-nav.png";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../redux/slices/user.slice";
+import { userActions } from "../redux/slices/user.slice";
+//import { logout } from "../redux/slices/user.slice";
 
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users);
-  const showSwal = () => {
-    withReactContent(Swal).fire({
-      title: <i>Information</i>,
-      text: "Coming Soon",
-    });
-  };
 
   const goToSignIn = () => {
     navigate(`/auth/login`, { replace: true });
@@ -25,9 +18,24 @@ function Header() {
   };
 
   const signOut = () => {
-    dispatch(logout());
+    dispatch(userActions.logoutUserThunk(users.fetchStatus.nowLogin.token));
     navigate(`/`);
   };
+
+  // useEffect(() => {
+  //   (() => {
+  //     console.log(users.fetchStatus.nowLogin.data.token, "err");
+  // if (usersState.fetchStatus.nowLogin.errorMessage) {
+  //   setType("error");
+  //   setTitle("Error Message");
+  //   setMessage(usersState.fetchStatus.nowLogin.errorMessage);
+  //   setIsModalOpen(true);
+  // } else if (usersState.isLogin) {
+  //   navigate("/");
+  // }
+  //setErr(usersState.fetchStatus.nowLogin.errorMessage);
+  //   })();
+  // }, [usersState.fetchStatus.nowLogin.errorMessage]);
 
   return (
     <>
